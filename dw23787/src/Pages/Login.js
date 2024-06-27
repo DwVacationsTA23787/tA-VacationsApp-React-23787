@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import {handleLogin} from '../Services/UserService';
 
 function Login() {
+
+  const navigate = useNavigate();
+
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [remainder, setRemainder] = useState(false);
@@ -12,12 +15,17 @@ function Login() {
   };
 
   const handleSubmit = () => {
-    try {
-      handleLogin(Email, Password, remainder);
-    } catch (exception) {
-      console.error('Error during login:', exception);
-    }
+    handleLogin(Email, Password, remainder)
+      .then((response) => {
+         const user = response;
+         localStorage.setItem('user', JSON.stringify(user))
+         navigate('/', { replace: true });
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+      });
   };
+
   return (
     <section className="vh-100">
       <div className="container-fluid">

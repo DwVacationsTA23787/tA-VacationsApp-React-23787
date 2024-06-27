@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Counters() {
+function Counters({numUsers, numTrips}) {
     return (
         <div
             className="container-fluid"
@@ -12,7 +12,7 @@ function Counters() {
         >
             <div className="d-flex justify-content-center align-items-center">
                 <div className="col-md-5" style={{ margin: '20px 0' }}>
-                    <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>70</h1>
+                    <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>{numUsers}</h1>
                     <h5>Number Users</h5>
                     <p style={{ color: '#060a0d' }}>
                         Number of Users Register in the App
@@ -20,7 +20,7 @@ function Counters() {
                 </div>
                 <div style={{ height: '100px', borderLeft: '1px solid #ccc', margin: '0 20px' }}></div>
                 <div className="col-md-5" style={{ margin: '20px 0' }}>
-                    <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>15</h1>
+                    <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>{numTrips}</h1>
                     <h5>Number Trips</h5>
                     <p style={{ color: '#060a0d' }}>
                         Number of Trips Created by our Users.
