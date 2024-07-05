@@ -28,7 +28,7 @@ function HeroSection() {
                     className='rounded-circle bg-transparent border-0 shadow-none'
                     style={{ outline: '2px solid white', outlineOffset: '2px' }}
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="15px" fill="#e8eaed">
                         <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
                     </svg>
                 </Button>

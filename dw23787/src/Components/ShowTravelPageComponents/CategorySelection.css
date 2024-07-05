@@ -1,0 +1,32 @@
+.category-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.category-item {
+  flex: 0 0 auto;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.category-item:hover {
+  background-color: #e2e6ea;
+}
+
+.category-item.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.ExploreText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+}

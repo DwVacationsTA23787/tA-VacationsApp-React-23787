@@ -7,15 +7,16 @@ export function handleLogin(Email, password, remainder) {
     headers: {
       Accept: "*/*"
     },
-    method: "GET"
+    method: "GET",
+    credentials: 'include'
   })
   .then((res) => res.json())
   .then((data) => {
-    return data; // Return the parsed JSON data
+    return data;
   })
   .catch((error) => {
     console.error('Error during login:', error);
-    throw error; // Propagate the error further if needed
+    throw error;
   });
 }
 
@@ -43,4 +44,53 @@ export function handleLogin(Email, password, remainder) {
       console.error('Error:', error);
     });
   }
+
+  export function GetUser(id) {
+    return fetch(`https://localhost:7044/api/V1/GetUser?${new URLSearchParams({
+      id: id,
+    })}`, {
+      headers: {
+        Accept: "*/*"
+      },
+      method: "GET",
+      credentials: 'include'
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.error('Error during login:', error);
+      throw error;
+    });
+  }
+
+
+  export function UpdateUser(id, userData) {
+    return fetch(`https://localhost:7044/api/V1/UpdateUser/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(userData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        throw error;
+      });
+  }
+  
+
+
   

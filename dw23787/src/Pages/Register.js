@@ -14,6 +14,7 @@ function Register() {
   const [birthdate, setBirthdate] = useState('');
   const [gender, setGender] = useState('');
   const [phone, setPhone] = useState('');
+  const [Quote, setQuote] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
   const handleSubmit = (e) => {
@@ -33,7 +34,8 @@ function Register() {
       gender: gender,
       phone: phone,
       profilePicture: profilePicture,
-      UserID: ''
+      UserID: '',
+      Quote: Quote
     };
 
     handleRegister(newUser);
@@ -101,6 +103,17 @@ function Register() {
                     className="form-control form-control-lg"
                   />
                   <label className="form-label" htmlFor="form3Example4cd">Birthdate</label>
+                </div>
+
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form3Example3c"
+                    value={Quote}
+                    onChange={(e) => setQuote(e.target.value)}
+                    className="form-control form-control-lg"
+                  />
+                  <label className="form-label" htmlFor="form3Example3c">Your Quote</label>
                 </div>
 
                 <div className="form-outline mb-4">
