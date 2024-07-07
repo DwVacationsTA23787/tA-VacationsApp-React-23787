@@ -4,6 +4,8 @@ import CategorySelection from '../Components/ShowTravelPageComponents/CategorySe
 import TravelCard from '../Components/TravelCard';
 import { GetTravels } from '../Services/TravelsService';
 import Pagination from 'react-bootstrap/Pagination';
+import NotFoundPage from '../Components/NotFoundPage';
+import NotFoundTest from '../Components/NotFoundPage';
 
 function ShowTravelPage() {
   const [searchText, setSearchText] = useState("");
@@ -93,7 +95,7 @@ function ShowTravelPage() {
               </div>
             ))
           ) : (
-            <div>No travel cards available</div>
+            <NotFoundTest info="No travel cards available" option="Reload the page" to="/"/>
           )}
         </div>
       )}

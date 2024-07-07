@@ -16,7 +16,6 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check localStorage on initial load
     const storedUser = JSON.parse(localStorage.getItem('user'));
     setUser(storedUser);
     if (storedUser) {

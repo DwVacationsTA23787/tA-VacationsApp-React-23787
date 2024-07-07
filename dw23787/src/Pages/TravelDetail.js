@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { GetTravelDetail, GetTravelsForUser } from '../Services/TravelsService';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import NotFoundPage from '../Components/NotFoundPage';
+import NotFoundTest from '../Components/NotFoundPage';
 
 function TravelDetail() {
   const { id } = useParams();
@@ -141,7 +143,7 @@ function TravelDetail() {
           </div>
         </div>
       ) : (
-        <div>Travel detail not found</div>
+        <NotFoundTest info="Travel detail not found" option="Back to Home" to="/"/>
       )}
     </div>
   );

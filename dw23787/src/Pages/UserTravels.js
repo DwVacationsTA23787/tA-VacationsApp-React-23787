@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GetAllTravelsForUser } from '../Services/TravelsService';
 import TravelCard from '../Components/TravelCard';
 import { useParams } from 'react-router-dom';
+import NotFoundPage from '../Components/NotFoundPage';
 
 function UserTravels() {
 
@@ -46,7 +47,8 @@ function UserTravels() {
               </div>
             ))
           ) : (
-            <div>No travel cards available</div>
+            <NotFoundPage/>
+            //<div>No travel cards available</div>
           )}
         </div>
       )}
