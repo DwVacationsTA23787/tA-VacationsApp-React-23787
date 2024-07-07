@@ -1,5 +1,6 @@
-export function GetTravels(Page, Pagesize, category, search) {
+export function GetTravels(id, Page, Pagesize, category, search) {
     return fetch(`https://localhost:7044/api/V1/TravelCards?${new URLSearchParams({
+      id: id,
       page: Page,
       pageSize: Pagesize,
       category: category,

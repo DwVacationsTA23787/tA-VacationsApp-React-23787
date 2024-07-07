@@ -30,7 +30,7 @@ function HomePage() {
   return (
     <div>
       <HeroSection></HeroSection>
-      <div className='container' style={{ zIndex: '10', position: 'relative', marginTop: '-50px', backgroundColor: 'white', borderRadius: '15px' }}>
+      <div id="counters" className='container' style={{ zIndex: '10', position: 'relative', marginTop: '-50px', backgroundColor: 'white', borderRadius: '15px' }}>
         <Counters numUsers={numUsers} numTrips={numTrips} ></Counters>
         <div className='row'>
           <div className='col-12 d-flex justify-content-center'>

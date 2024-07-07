@@ -1,20 +1,66 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Login({ handleLogin }) { // Receive handleLogin as prop
+function Login({ handleLogin, SubmitError }) {
 
-  const navigate = useNavigate();
-
+  // UseStates
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [remainder, setRemainder] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
+
+  // Handle Event Functions
   const handleCheckboxChange = (event) => {
     setRemainder(event.target.checked);
   };
 
   const handleSubmit = () => {
-    handleLogin(Email, Password, remainder); // Call handleLogin from props
+    if (validateEmail(Email) && validatePassword(Password)) {
+      handleLogin(Email, Password, remainder);
+    }
+  };
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+    validateEmail(event.target.value);
+  };
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+    validatePassword(event.target.value);
+  };
+
+
+  // Validation Functions
+
+  const validateEmail = (email) => {
+    const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (email === "") {
+      setEmailError('Email is required');
+      return false;
+    } else if (!re.test(email)) {
+      setEmailError('Enter a valid email address');
+      return false;
+    } else {
+      setEmailError('');
+      return true;
+    }
+  };
+
+  const validatePassword = (password) => {
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    if (password === "") {
+      setPasswordError('Password is required');
+      return false;
+    } else if (!re.test(password)) {
+      setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
+      return false;
+    } else {
+      setPasswordError('');
+      return true;
+    }
   };
 
   return (
@@ -30,20 +76,22 @@ function Login({ handleLogin }) { // Receive handleLogin as prop
                     type="email"
                     id="form2Example18"
                     value={Email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={handleEmail}
                     className="form-control form-control-lg"
                   />
                   <label className="form-label" htmlFor="form2Example18">Email address</label>
+                  <div className="text-danger">{emailError}</div>
                 </div>
                 <div className="form-outline mb-4">
                   <input
                     type="password"
                     id="form2Example28"
                     value={Password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={handlePassword}
                     className="form-control form-control-lg"
                   />
                   <label className="form-label" htmlFor="form2Example28">Password</label>
+                  <div className="text-danger">{passwordError}</div>
                 </div>
                 <div className="form-check mb-4">
                   <input
@@ -57,6 +105,7 @@ function Login({ handleLogin }) { // Receive handleLogin as prop
                 </div>
                 <div className="pt-1 mb-4">
                   <button className="btn btn-info btn-lg btn-block" type="button" onClick={handleSubmit}>Login</button>
+                  <div className="text-danger mt-2">{SubmitError}</div>
                 </div>
                 <p>Don't have an account? <Link to="/Registo" className="link-info">Register here</Link></p>
               </form>

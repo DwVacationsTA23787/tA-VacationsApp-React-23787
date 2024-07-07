@@ -24,7 +24,7 @@ function HeroSection() {
                     <p className="fs-5">JUMP IN MY RIDE?</p>
                 </div>
 
-                <Button
+                <Button href='#counters'
                     className='rounded-circle bg-transparent border-0 shadow-none'
                     style={{ outline: '2px solid white', outlineOffset: '2px' }}
                 >

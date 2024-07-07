@@ -40,6 +40,7 @@ const Groups = () => {
             <th>#</th>
             <th>Group ID</th>
             <th>Name</th>
+            <th>Users in Group</th>
             {/* Add more headers as needed */}
           </tr>
         </thead>
@@ -48,8 +49,8 @@ const Groups = () => {
             <tr key={group.groupId}>
               <td>{indexOfFirstGroup + index + 1}</td>
               <td>{group.groupId}</td>
-              <td>{group.name}</td>
-              {/* Add more columns for additional group information */}
+              <td>{group.groupName}</td>
+              <td>{group.userCount}</td>
             </tr>
           ))}
         </tbody>

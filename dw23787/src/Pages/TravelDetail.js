@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GetTravelDetail, GetTravelsForUser } from '../Services/TravelsService';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import NotFoundPage from '../Components/NotFoundPage';
 import NotFoundTest from '../Components/NotFoundPage';
+import { AddUserToGroup } from '../Services/GroupsService';
 
 function TravelDetail() {
   const { id } = useParams();
@@ -12,6 +12,8 @@ function TravelDetail() {
   const [travelsUser, setTravelsUser] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingTwo, setLoadingTwo] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +41,19 @@ function TravelDetail() {
         setLoadingTwo(false);
       });
   }, [id]);
+
+  // Event Handler Functions
+  const handleGroupAdd = () => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    
+    AddUserToGroup(travelDetail.groupId, storedUser.id)
+      .then((response) => {
+          navigate("/chat");
+      })
+      .catch((error) => {
+        console.error("Error adding user to group:", error);
+      });
+  }
 
   return (
     <div>
@@ -139,7 +154,7 @@ function TravelDetail() {
             </div>
           </section>
           <div class="d-grid gap-2 col-4 mx-auto mb-4">
-            <button type="button" class="btn btn-success btn-rounded p-2">Click to enter in the travel group</button>
+           <button onClick={handleGroupAdd} type="button" class="btn btn-success btn-rounded p-2">Click to enter in the travel group</button>
           </div>
         </div>
       ) : (

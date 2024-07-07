@@ -9,10 +9,14 @@ import TravelDetail from './Pages/TravelDetail';
 import { handleLogin as userServiceLogin } from './Services/UserService';
 import UserTravels from './Pages/UserTravels';
 import DashboardPage from './Pages/Dashboard';
+import ChatPage from './Pages/ChatPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+
+  //Error for Login
+  const [SubmitError, setSubmitError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +39,7 @@ function App() {
         navigate('/', { replace: true });
       })
       .catch((error) => {
-        console.error('Error during login:', error);
+        setSubmitError('Failed to login. Please check your credentials and try again.');
       });
   };
 
@@ -52,11 +56,12 @@ function App() {
       <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} id={userId} />
       <Routes>
         <Route path="/" element={!isLoggedIn ? <HomePage /> : <ShowTravelPage />} />
-        <Route path="/Login" element={<Login handleLogin={handleLogin} />} />
+        <Route path="/Login" element={<Login handleLogin={handleLogin} SubmitError={SubmitError} />} />
         <Route path="/Registo" element={<Register />} />
         <Route path="/traveldetail/:id" element={<TravelDetail />} />
         <Route path="/UserTravels/:id" element={<UserTravels />} />
         <Route path="/Profile/:id" element={<DashboardPage/>}/>
+        <Route path="/chat" element={<ChatPage/>}/>
       </Routes>
     </>
   );

@@ -17,3 +17,22 @@ export async function GetAllGroupsForUser(id) {
       throw error;
     }
   }
+
+  export function AddUserToGroup(groupId, userId) {
+    return fetch(`https://localhost:7044/api/V1/AddUserToGroup?${new URLSearchParams({
+      groupId: groupId,
+      userId: userId
+    })}`, {
+      headers: {
+        Accept: "*/*"
+      },
+      method: "POST",
+      credentials: 'include'
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+  }

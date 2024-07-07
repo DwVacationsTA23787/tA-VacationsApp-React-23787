@@ -5,7 +5,6 @@ import TravelCard from '../Components/TravelCard';
 import { GetTravels } from '../Services/TravelsService';
 import Pagination from 'react-bootstrap/Pagination';
 import NotFoundPage from '../Components/NotFoundPage';
-import NotFoundTest from '../Components/NotFoundPage';
 
 function ShowTravelPage() {
   const [searchText, setSearchText] = useState("");
@@ -31,7 +30,8 @@ function ShowTravelPage() {
 
   const fetchTravelCards = (page, category, search) => {
     setLoading(true);
-    GetTravels(page, 10, category, search)
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    GetTravels(storedUser.id, page, 10, category, search)
       .then((data) => {
         setTravelCards(data.travelCards.$values);
         setCurrentPage(data.currentPage);
@@ -95,7 +95,7 @@ function ShowTravelPage() {
               </div>
             ))
           ) : (
-            <NotFoundTest info="No travel cards available" option="Reload the page" to="/"/>
+            <NotFoundPage info="No travel cards available" option="Reload the page" to="/"/>
           )}
         </div>
       )}

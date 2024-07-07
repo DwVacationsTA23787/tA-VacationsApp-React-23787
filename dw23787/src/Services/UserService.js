@@ -60,7 +60,6 @@ export function handleLogin(Email, password, remainder) {
       return data;
     })
     .catch((error) => {
-      console.error('Error during login:', error);
       throw error;
     });
   }
@@ -86,7 +85,6 @@ export function handleLogin(Email, password, remainder) {
         return data;
       })
       .catch((error) => {
-        console.error("Error updating user:", error);
         throw error;
       });
   }

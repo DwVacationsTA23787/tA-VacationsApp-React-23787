@@ -267,11 +267,16 @@ function NotFoundPage({ to, info, option }) {
                             </g>
                             <path class="st9" d="M320.3 257.8h549.9" />
                             <g id="Text">
+
+                                <text transform="translate(639.5 186.994)" class="st8 st10" font-size="24.025">
+                                    CP
+                                </text>
+
                                 <text transform="translate(377.037 230.025)" class="st8 st10" font-size="21">
                                     404
                                 </text>
                                 <text transform="translate(659.5 213.994)" class="st8 st10" font-size="24.025">
-                                    Page not found.
+                                    Content not found.
                                 </text>
                             </g>
                             <g id="ladders">
