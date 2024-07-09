@@ -2,12 +2,20 @@ import React, { useState } from 'react';
 import { Navbar, Nav, DropdownButton, Dropdown } from 'react-bootstrap';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useAppContext } from './AppContext';
+import { NavBarphrases } from '../Utils/language';
 
 function NavBar({ isLoggedIn, handleLogout, id }) {
-
+  const { changeLanguage } = useAppContext();
   const navigate = useNavigate();
-  const [selectedFlag, setSelectedFlag] = useState(null);
+  const [selectedFlag, setSelectedFlag] = useState('/uk.svg');
+
+  const { language } = useAppContext();
+  const {
+    login,
+    register,
+    logout,
+  } = NavBarphrases[language];
 
   const handleLogoutClick = () => {
     handleLogout();
@@ -16,6 +24,11 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
 
   const handleFlagSelect = (countryCode, flagImage) => {
     setSelectedFlag(flagImage);
+    if (countryCode === 'PT') {
+      changeLanguage('pt');
+    } else if (countryCode === 'GB') {
+      changeLanguage('en');
+    }
     console.log('Selected flag:', countryCode);
   }
 
@@ -48,8 +61,8 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
           {
             !isLoggedIn ? (
               <>
-                <Nav.Link as={Link} to="/Login">Login</Nav.Link>
-                <Nav.Link as={Link} to="/Registo">Register</Nav.Link>
+                <Nav.Link as={Link} to="/Login">{login}</Nav.Link>
+                <Nav.Link as={Link} to="/Registo">{register}</Nav.Link>
               </>
             ) : (
               <>
@@ -61,7 +74,7 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
                     style={{ width: '40px', height: '40px' }}
                   />
                 </Nav.Link>
-                <Nav.Link onClick={handleLogoutClick}>Logout</Nav.Link>
+                <Nav.Link onClick={handleLogoutClick}>{logout}</Nav.Link>
               </>
             )
           }

@@ -103,3 +103,22 @@ export async function GetAllTripsForUser(id) {
     throw error;
   }
 }
+
+
+export async function CreateTrip(id, formData) {
+  try {
+    const response = await fetch(`https://localhost:7044/api/V1/CreateTrip?id=${id}`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating trip:', error);
+    throw error;
+  }
+}
+

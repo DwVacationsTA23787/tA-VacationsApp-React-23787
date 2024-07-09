@@ -10,12 +10,11 @@ import { handleLogin as userServiceLogin } from './Services/UserService';
 import UserTravels from './Pages/UserTravels';
 import DashboardPage from './Pages/Dashboard';
 import ChatPage from './Pages/ChatPage';
+import { AppProvider } from './Components/AppContext'; 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-
-  //Error for Login
   const [SubmitError, setSubmitError] = useState('');
   const navigate = useNavigate();
 
@@ -52,7 +51,7 @@ function App() {
   const userId = user ? user.id : null;
 
   return (
-    <>
+    <AppProvider>
       <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} id={userId} />
       <Routes>
         <Route path="/" element={!isLoggedIn ? <HomePage /> : <ShowTravelPage />} />
@@ -60,10 +59,10 @@ function App() {
         <Route path="/Registo" element={<Register />} />
         <Route path="/traveldetail/:id" element={<TravelDetail />} />
         <Route path="/UserTravels/:id" element={<UserTravels />} />
-        <Route path="/Profile/:id" element={<DashboardPage/>}/>
-        <Route path="/chat" element={<ChatPage/>}/>
+        <Route path="/Profile/:id" element={<DashboardPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
-    </>
+    </AppProvider>
   );
 }
 

@@ -1,7 +1,15 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { useAppContext } from '../AppContext';
+import { HomePagephrases } from '../../Utils/language';
 
 function HeroSection() {
+
+    const { language } = useAppContext();
+    const {
+        Hero,
+    } = HomePagephrases[language];
+
     return (
         <div
             className="container-fluid position-relative d-flex justify-content-center align-items-center"
@@ -9,9 +17,9 @@ function HeroSection() {
                 backgroundImage: "url('/secondTry.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                height: "100vh", // Example height, you can adjust this as needed
-                maxHeight: "600px", // Maximum height to maintain aspect ratio
-                overflow: "hidden", // Hide any overflowing content
+                height: "100vh", 
+                maxHeight: "600px", 
+                overflow: "hidden",
             }}
         >
             <div className='d-flex flex-column align-items-center'>
@@ -20,7 +28,7 @@ function HeroSection() {
                         <span className="me-2">DO YOU</span>
                         <span>WANNA</span>
                     </p>
-                    <p className="mt-3 fs-6">everything you can imagine, is here</p>
+                    <p className="mt-3 fs-6">{Hero}</p>
                     <p className="fs-5">JUMP IN MY RIDE?</p>
                 </div>
 

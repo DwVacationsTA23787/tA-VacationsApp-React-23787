@@ -1,6 +1,17 @@
-import React from 'react'
+import React from 'react';
+import {HomePagephrases} from '../../Utils/language';
+import { useAppContext } from '../AppContext';
 
 function Counters({numUsers, numTrips}) {
+
+    const { language } = useAppContext();
+    const {
+        Nusers,
+        NusersR,
+        NTrips,
+        NTripsR,
+    } = HomePagephrases[language];
+
     return (
         <div
             className="container-fluid"
@@ -13,17 +24,17 @@ function Counters({numUsers, numTrips}) {
             <div className="d-flex justify-content-center align-items-center">
                 <div className="col-md-5" style={{ margin: '20px 0' }}>
                     <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>{numUsers}</h1>
-                    <h5>Number Users</h5>
+                    <h5>{Nusers}</h5>
                     <p style={{ color: '#060a0d' }}>
-                        Number of Users Register in the App
+                        {NusersR}
                     </p>
                 </div>
                 <div style={{ height: '100px', borderLeft: '1px solid #ccc', margin: '0 20px' }}></div>
                 <div className="col-md-5" style={{ margin: '20px 0' }}>
                     <h1 style={{ fontSize: '3rem', color: '#2f3e23' }}>{numTrips}</h1>
-                    <h5>Number Trips</h5>
+                    <h5>{NTrips}</h5>
                     <p style={{ color: '#060a0d' }}>
-                        Number of Trips Created by our Users.
+                        {NTripsR}
                     </p>
                 </div>
             </div>

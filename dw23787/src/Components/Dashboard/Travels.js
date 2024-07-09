@@ -45,6 +45,7 @@ const Travels = () => {
             <th>Transport</th>
             <th>Category</th>
             <th>Banner</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -58,6 +59,7 @@ const Travels = () => {
               <td>{trip.transport}</td>
               <td>{trip.category}</td>
               <td>{trip.banner}</td>
+              <td className='text-center'>{<i class="bi bi-x"></i>}</td>
             </tr>
           ))}
         </tbody>

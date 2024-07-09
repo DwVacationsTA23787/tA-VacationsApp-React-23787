@@ -41,7 +41,7 @@ const Groups = () => {
             <th>Group ID</th>
             <th>Name</th>
             <th>Users in Group</th>
-            {/* Add more headers as needed */}
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +51,7 @@ const Groups = () => {
               <td>{group.groupId}</td>
               <td>{group.groupName}</td>
               <td>{group.userCount}</td>
+              <td className='text-center'>{<i class="bi bi-x"></i>}</td>
             </tr>
           ))}
         </tbody>

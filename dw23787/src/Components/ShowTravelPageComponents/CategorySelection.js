@@ -1,13 +1,28 @@
 import React from 'react';
 import './CategorySelection.css';
+import { useAppContext } from '../AppContext';
+import { ShowTravelsphrases } from '../../Utils/language';
 
 function CategorySelection({ selectedCategory, onCategorySelect }) {
   const categories = ['All', 'Adventure', 'Leisure', 'Cultural', 'Business', 'Family'];
 
+  const { language } = useAppContext();
+  const {
+      explore,
+      tipo1,
+      tipo2,
+      tipo3,
+      tipo4,
+      tipo5,
+      tipo6,
+  } = ShowTravelsphrases[language];
+
+  const tipos = [tipo1, tipo2, tipo3, tipo4, tipo5, tipo6];
+
   return (
-    <div className='row mt-4'>
+    <div className='row mt-4 ml-1'>
       <p className='ExploreText'>
-        Explore Travels
+       {explore}
       </p>
       <div className="category-container">
         {categories.map((category, index) => (
@@ -16,7 +31,7 @@ function CategorySelection({ selectedCategory, onCategorySelect }) {
             className={`category-item ${selectedCategory === category ? 'active' : ''}`}
             onClick={() => onCategorySelect(category)}
           >
-            {category}
+            {tipos[index]}
           </div>
         ))}
       </div>

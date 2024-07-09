@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../Components/AppContext';
+import { Loginphrases } from '../Utils/language';
+
 
 function Login({ handleLogin, SubmitError }) {
+
+
+  const { language } = useAppContext();
+const {
+  remember,
+  account,
+  register,
+} = Loginphrases[language];
 
   // UseStates
   const [Email, setEmail] = useState('');
@@ -101,13 +112,13 @@ function Login({ handleLogin, SubmitError }) {
                     onChange={handleCheckboxChange}
                     id="form1Example3"
                   />
-                  <label className="form-check-label" htmlFor="form1Example3"> Remember me </label>
+                  <label className="form-check-label" htmlFor="form1Example3"> {remember} </label>
                 </div>
                 <div className="pt-1 mb-4">
                   <button className="btn btn-info btn-lg btn-block" type="button" onClick={handleSubmit}>Login</button>
                   <div className="text-danger mt-2">{SubmitError}</div>
                 </div>
-                <p>Don't have an account? <Link to="/Registo" className="link-info">Register here</Link></p>
+                <p>{account} <Link to="/Registo" className="link-info">{register}</Link></p>
               </form>
             </div>
           </div>

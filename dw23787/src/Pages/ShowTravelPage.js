@@ -7,6 +7,8 @@ import Pagination from 'react-bootstrap/Pagination';
 import NotFoundPage from '../Components/NotFoundPage';
 
 function ShowTravelPage() {
+
+
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [travelCards, setTravelCards] = useState([]);

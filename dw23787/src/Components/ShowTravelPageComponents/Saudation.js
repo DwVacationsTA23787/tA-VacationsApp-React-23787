@@ -2,8 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './Saudation.css';
 import CreateTripModal from '../SaudationComponents/CreateTripModal';
 import { Button, Col, Row } from 'react-bootstrap';
+import { useAppContext } from '../../Components/AppContext';
+import { ShowTravelsphrases } from '../../Utils/language';
 
 function Saudation() {
+
+
+  const { language } = useAppContext();
+  const {
+      HI,
+      search,
+  } = ShowTravelsphrases[language];
+
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -27,8 +37,8 @@ function Saudation() {
     <Col>
       {user ? (
         <>
-          <p className="saudation-text">Hi, {user.name}</p>
-          <p className="saudation-subtext">Let's search for a new travel!</p>
+          <p className="saudation-text">{HI}, {user.name}</p>
+          <p className="saudation-subtext">{search}</p>
         </>
       ) : (
         <p>Loading...</p>
