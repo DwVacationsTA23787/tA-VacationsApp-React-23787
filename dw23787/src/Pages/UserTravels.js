@@ -3,8 +3,16 @@ import { GetAllTravelsForUser } from '../Services/TravelsService';
 import TravelCard from '../Components/TravelCard';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from '../Components/NotFoundPage';
+import { useAppContext } from '../Components/AppContext';
+import { TravelsForUsersphrases } from '../Utils/language';
 
 function UserTravels() {
+
+  const { language } = useAppContext();
+  const {
+    HI,
+    search,
+  } = TravelsForUsersphrases[language];
 
     const [travelCards, setTravelCards] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,9 +37,9 @@ function UserTravels() {
   return (
     <div className='container mt-4 d-flex flex-column min-vh-100' style={{ backgroundColor: '#f8f9fa' }}>
         <p className='saudation-text'>
-            You are seeing travels created by, {userData === null ? "" : userData.name}
+            {HI} {userData === null ? "" : userData.name}
           </p>
-          <p className='saudation-subtext'>Let's search for a new travel!</p>
+          <p className='saudation-subtext'>{search}</p>
       {loading ? (
         <div className="text-center mt-4">
           <div className="spinner-border text-primary" role="status">

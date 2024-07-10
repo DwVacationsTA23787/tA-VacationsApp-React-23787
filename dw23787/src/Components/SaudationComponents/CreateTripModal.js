@@ -1,8 +1,44 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { CreateTrip } from '../../Services/TravelsService';
+import { useAppContext } from '../AppContext';
+import { ModelTripsphrases } from '../../Utils/language';
 
 function CreateTripModal({ show, onHide }) {
+
+
+  const { language } = useAppContext();
+  const {
+    NewTrip,
+      TripName,
+      Transport,
+      BudgetI,
+      BudgetF,
+      Category,
+      Location,
+      Description,
+      Banner,
+      NewTripPlace,
+      TripNamePlace,
+      TransportPlace,
+      BudgetIPlace,
+      BudgetFPlace,
+      CategoryPlace,
+      LocationPlace,
+      DescriptionPlace,
+      CTrip,
+      Close,
+      tipo2,
+      tipo3,
+      tipo4,
+      tipo5,
+      tipo6,
+      tipo7,
+      tipo8,
+      tipo9,
+      tipo10,
+  } = ModelTripsphrases[language];
+
 
   const [tripName, setTripName] = useState('');
   const [description, setDescription] = useState('');
@@ -49,87 +85,87 @@ function CreateTripModal({ show, onHide }) {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Create a New Trip</Modal.Title>
+        <Modal.Title>{NewTrip}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="tripName">
-            <Form.Label>Trip Name</Form.Label>
+            <Form.Label>{TripName}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter trip name"
+              placeholder={TripNamePlace}
               value={tripName}
               onChange={(e) => setTripName(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>{Description}</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Enter description"
+              placeholder={DescriptionPlace}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="location">
-            <Form.Label>Location</Form.Label>
+            <Form.Label>{Location}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter location"
+              placeholder={LocationPlace}
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="category">
-            <Form.Label>Category</Form.Label>
+            <Form.Label>{Category}</Form.Label>
             <Form.Control
               as="select"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option value="">Select category</option>
-              <option value="Adventure">Adventure</option>
-              <option value="Leisure">Leisure</option>
-              <option value="Cultural">Cultural</option>
-              <option value="Business">Business</option>
-              <option value="Family">Family</option>
+              <option value="">{CategoryPlace}</option>
+              <option value="Adventure">{tipo2}</option>
+              <option value="Leisure">{tipo3}</option>
+              <option value="Cultural">{tipo4}</option>
+              <option value="Business">{tipo5}</option>
+              <option value="Family">{tipo6}</option>
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="transport">
-            <Form.Label>Transport</Form.Label>
+            <Form.Label>{Transport}</Form.Label>
             <Form.Control
               as="select"
               value={transport}
               onChange={(e) => setTransport(e.target.value)}
             >
-              <option value="">Select transport</option>
-              <option value="Plane">Plane</option>
-              <option value="Bus">Bus</option>
-              <option value="Train">Train</option>
-              <option value="Hitchhiking">Hitchhiking</option>
+              <option value="">{TransportPlace}</option>
+              <option value="Plane">{tipo7}</option>
+              <option value="Bus">{tipo8}</option>
+              <option value="Train">{tipo9}</option>
+              <option value="Hitchhiking">{tipo10}</option>
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="initialBudget">
-            <Form.Label>Initial Budget</Form.Label>
+            <Form.Label>{BudgetI}</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Enter initial budget"
+              placeholder={BudgetIPlace}
               value={initialBudget}
               onChange={(e) => setInitialBudget(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="finalBudget">
-            <Form.Label>Final Budget</Form.Label>
+            <Form.Label>{BudgetF}</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Enter final budget"
+              placeholder={BudgetFPlace}
               value={finalBudget}
               onChange={(e) => setFinalBudget(e.target.value)}
             />
           </Form.Group>
           <Form.Group controlId="banner">
-            <Form.Label>Banner</Form.Label>
+            <Form.Label>{Banner}</Form.Label>
             <Form.Control
               type="file"
               accept="image/png, image/jpeg"
@@ -140,10 +176,10 @@ function CreateTripModal({ show, onHide }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Close
+          {Close}
         </Button>
         <Button variant="primary" onClick={handleCreateTrip}>
-          Create Trip
+          {CTrip}
         </Button>
       </Modal.Footer>
     </Modal>
