@@ -35,11 +35,58 @@ export const HomePagephrases = {
         remember: 'Remember me',
         account: "Don't have an account?",
         register: 'Register here',
+        password: 'Password',
+        email: 'Email address',
+        LogIn: "Log in",
     },
     pt:{
       remember: 'Relembra-me',
       account: "Não tens conta?",
       register: 'Regista-te aqui',
+      password: 'Palavra-passe',
+      email: 'Endereço de email',
+      LogIn: "Inicio de Sessão",
+    },
+  };
+
+
+  export const Registerhrases = {
+    en: {
+        Name: "Your Name",
+        Email: 'Your Email',
+        passwordR: 'Password',
+        SignUp: "Sign up",
+        passwordRR: 'Repeat your password',
+        Birthdate: "Birthdate",
+        Nationality: "Your Nationality",
+        Quote: "Your Quote",
+        Gender: "Gender",
+        ProfilePicture: "Profile Picture",
+        Phone: "Phone",
+        Terms: "I agree to all statements in",
+        Service: "Terms of service",
+        Register: "Register",
+        Login: "Already have an account?",
+        LoginH: "Login here"
+    },
+    pt:{
+      Name: "Nome",
+      Email: 'Endereço de Email',
+      register: 'Regista-te aqui',
+      passwordR: 'Palavra-passe',
+      passwordRR: 'Repetir palavra-passe',
+      SignUp: "Registo",
+      Birthdate: "Data de nascimento",
+      Nationality: "Nacionalidade",
+      Quote: "Frase destaque",
+      Gender: "Genero",
+      ProfilePicture: "Foto do perfil",
+      Phone: "Telemovél",
+      Terms: "Concordo com todas as declarações nos",
+      Service: "Termos de serviço",
+      Register: "Registo",
+      Login: "Já tem uma conta?",
+      LoginH: "Inicia sessão aqui"
     },
   };
 
@@ -66,5 +113,39 @@ export const HomePagephrases = {
       tipo4: "Cultural",
       tipo5: "Negócios",
       tipo6: "Família",
+    },
+  };
+
+
+  export const TravelDetailsphrases = {
+    en: {
+      KeyPoints: 'Key points',
+      TripName: "Trip Name",
+      Transport: "Transport",
+      BudgetI: "Initial Budget",
+      BudgetF: "Final Budget",
+      Category: "Category",
+      Location: "Location",
+      Description: "Description",
+      Age: "Age",
+      Gender: "Gender",
+      Nationality: "Nationality",
+      TripsCreated: "Trips created by",
+      EnterGroup: "Click to enter in the travel group",
+    },
+    pt:{
+      KeyPoints: 'Pontos Chave',
+      TripName: "Nome Viagem",
+      Transport: "Transporte",
+      BudgetI: "Orçamento Inicial",
+      BudgetF: "Orçamento Final",
+      Category: "Categoria",
+      Location: "Localização",
+      Description: "Descrição",
+      Age: "Idade",
+      Gender: "Genero",
+      Nationality: "Nacionalidade",
+      TripsCreated: "Viagens criadas por",
+      EnterGroup: "Clique para participar no grupo da viagem",
     },
   };

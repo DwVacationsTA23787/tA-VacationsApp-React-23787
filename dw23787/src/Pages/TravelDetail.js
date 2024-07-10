@@ -5,8 +5,28 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NotFoundTest from '../Components/NotFoundPage';
 import { AddUserToGroup } from '../Services/GroupsService';
+import { useAppContext } from '../Components/AppContext';
+import { TravelDetailsphrases } from '../Utils/language';
 
 function TravelDetail() {
+
+  const { language } = useAppContext();
+  const {
+    KeyPoints,
+      TripName,
+      Transport,
+      BudgetI,
+      BudgetF,
+      Category,
+      Location,
+      Description,
+      Age,
+      Gender,
+      Nationality,
+      TripsCreated,
+      EnterGroup,
+  } = TravelDetailsphrases[language];
+
   const { id } = useParams();
   const [travelDetail, setTravelDetail] = useState(null);
   const [travelsUser, setTravelsUser] = useState(0);
@@ -70,18 +90,19 @@ function TravelDetail() {
               <div className='h-100 d-flex flex-column justify-content-between'>
                 <Card className='border p-4'>
                   <Card.Header className='text-center'>
-                    <h3>Key points</h3>
+                    <h3>{KeyPoints}</h3>
                   </Card.Header>
                   <Card.Body>
                     <div className='row'>
                       <div className='col-md-6'>
-                        <div className='border p-4 m-2 rounded'><strong>Trip Name:</strong> {travelDetail.tripName}</div>
-                        <div className='border p-4 m-2 rounded'><strong>Initial Budget:</strong> {travelDetail.inicialBudget}</div>
-                        <div className='border p-4 m-2 rounded'><strong>Category:</strong> {travelDetail.category}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{TripName}:</strong> {travelDetail.tripName}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{BudgetI}:</strong> {travelDetail.inicialBudget}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{Category}:</strong> {travelDetail.category}</div>
                       </div>
                       <div className='col-md-6'>
-                        <div className='border p-4 m-2 rounded'><strong>Transport:</strong> {travelDetail.transport}</div>
-                        <div className='border p-4 m-2 rounded'><strong>Final Budget:</strong> {travelDetail.finalBudget}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{Transport}:</strong> {travelDetail.transport}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{BudgetF}:</strong> {travelDetail.finalBudget}</div>
+                        <div className='border p-4 m-2 rounded'><strong>{Location}:</strong> {travelDetail.location}</div>
                       </div>
                     </div>
                   </Card.Body>
@@ -89,7 +110,7 @@ function TravelDetail() {
 
                 <Card className='border p-4 mt-4'>
                   <Card.Header className='text-center'>
-                    <h3>Description</h3>
+                    <h3>{Description}</h3>
                   </Card.Header>
                   <Card.Body>
                     <p>{travelDetail.description}</p>
@@ -120,8 +141,9 @@ function TravelDetail() {
               <div className="col-lg-4 mb-5 mb-lg-0 position-relative">
                 {travelDetail.user && (
                   <>
-                    <div className='border p-4 m-2 rounded'><strong>Age:</strong> {travelDetail.user.age}</div>
-                    <div className='border p-4 m-2 rounded'><strong>Gender:</strong> {travelDetail.user.gender}</div>
+                    <div className='border p-4 m-2 rounded'><strong>{Age}:</strong> {travelDetail.user.age}</div>
+                    <div className='border p-4 m-2 rounded'><strong>{Gender}:</strong> {travelDetail.user.gender}</div>
+                    <div className='border p-4 m-2 rounded'><strong>{Nationality}:</strong> {travelDetail.user.nationality}</div>
                   </>
                 )}
                 <div className="vr vr-blurry position-absolute my-0 h-100 d-none d-lg-block top-0 end-0"></div>
@@ -144,7 +166,7 @@ function TravelDetail() {
 
               <div className="col-lg-4 position-relative">
                 <div>
-                  <h3 className='p-2 m-2'><strong>Trips created by</strong></h3>
+                  <h3 className='p-2 m-2'><strong>{TripsCreated}</strong></h3>
                   <Link to={`/UserTravels/${travelDetail.user.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <p role="button" className='font-weight-bold h2 mt-4'>{travelsUser}</p>
                   </Link>
@@ -154,7 +176,7 @@ function TravelDetail() {
             </div>
           </section>
           <div class="d-grid gap-2 col-4 mx-auto mb-4">
-           <button onClick={handleGroupAdd} type="button" class="btn btn-success btn-rounded p-2">Click to enter in the travel group</button>
+           <button onClick={handleGroupAdd} type="button" class="btn btn-success btn-rounded p-2">{EnterGroup}</button>
           </div>
         </div>
       ) : (

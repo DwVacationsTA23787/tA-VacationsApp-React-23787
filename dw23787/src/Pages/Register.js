@@ -3,8 +3,32 @@ import { Link } from 'react-router-dom';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { handleRegister } from '../Services/UserService';
+import { useAppContext } from '../Components/AppContext';
+import { Registerhrases } from '../Utils/language';
 
 function Register() {
+
+
+  const { language } = useAppContext();
+  const {
+    Name,
+        Email,
+        passwordR,
+        SignUp,
+        passwordRR,
+        Birthdate,
+        Nationality,
+        Quote,
+        Gender,
+        ProfilePicture,
+        Phone,
+        Terms,
+        Service,
+        Register,
+        Login,
+        LoginH
+  } = Registerhrases[language];
+
 
   // UseStates
   const [name, setName] = useState('');
@@ -17,7 +41,9 @@ function Register() {
   const [phone, setPhone] = useState('');
   const [quote, setQuote] = useState('');
   const [nationality, setNationality] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+
+
 
 
   // Error States
@@ -31,36 +57,62 @@ function Register() {
 
   // Handle Events functions
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== repeatPassword) {
-      alert("Passwords don't match");
+      if(language != 'pt'){
+        alert("Passwords don't match");
+        return;
+      }
+      alert("Palavras-passe não coincidem"); // verrrrrr istooooo
       return;
     }
 
     const isValid = validateEmail(email) & validatePassword(password) & validateQuote(quote) & validateGender(gender) & validateBirthdate(birthdate);
     
     if (!isValid) {
-      setSubmitError('Please correct the errors before submitting.');
+      if(language != 'pt'){  
+        setSubmitError('Please correct the errors before submitting.');
+        return;
+      }
+      setSubmitError('Por favor corrija os erros antes de submeter.');
       return;
     }
 
-    const newUser = {
-      name: name,
-      email: email,
-      password: password,
-      dataNascimento: birthdate,
-      age: 0,
-      gender: gender,
-      phone: phone,
-      Nationality: nationality,
-      profilePicture: profilePicture,
-      UserID: '',
-      Quote: quote
-    };
+    const formData = new FormData();
 
-    handleRegister(newUser);
+    formData.append('Name', name);
+    formData.append('Email', email);
+    formData.append('password', password);
+    formData.append('dataNascimento', birthdate);
+    formData.append('age', 0);
+    formData.append('gender', gender);
+    formData.append('phone', phone);
+    formData.append('Nationality', nationality);
+    formData.append('phone', phone);
+    formData.append('UserID', 'd43');
+    formData.append('Quote', quote);
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture);
+    }
+
+    try {
+      const response = await handleRegister(formData);
+
+      if (response) {
+        console.log('User Created sucessfully:', response);
+      } else {
+        console.error('Failed to create user:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error.message);
+    }
+  };
+
+
+  const handleFileChange = (e) => {
+    setProfilePicture(e.target.files[0]);
   };
 
 
@@ -69,10 +121,18 @@ function Register() {
   const validateEmail = (email) => {
     const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (email === "") {
-      setEmailError('Email is required');
+      if(language != 'pt'){
+        setEmailError('Email is required');
+        return false;
+      }
+      setEmailError('Email é necessario');
       return false;
     } else if (!re.test(email)) {
-      setEmailError('Enter a valid email address');
+      if(language != 'pt'){
+        setEmailError('Enter a valid email address');
+        return false;
+      }
+      setEmailError('Introduza um email valido');
       return false;
     } else {
       setEmailError('');
@@ -83,10 +143,18 @@ function Register() {
   const validatePassword = (password) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (password === "") {
-      setPasswordError('Password is required');
+      if(language != "pt"){
+        setPasswordError('Password is required');
+        return false;
+      }
+      setPasswordError('Password é necessaria');
       return false;
     } else if (!re.test(password)) {
-      setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
+      if(language != "pt"){
+        setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
+        return false;
+      }
+      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um digito, uma letra minuscula e uma maiuscula');
       return false;
     } else {
       setPasswordError('');
@@ -96,7 +164,11 @@ function Register() {
 
   const validateQuote = (quote) => {
     if (quote.length < 10 || quote.length > 100) {
-      setQuoteError('Quote must be between 10 and 100 characters');
+      if(language != 'pt'){
+        setQuoteError('Quote must be between 10 and 100 characters');
+        return false;
+      }
+      setQuoteError('Frase tem de conter entre 10 a 100 caracteres');
       return false;
     } else {
       setQuoteError('');
@@ -107,7 +179,11 @@ function Register() {
   const validateGender = (gender) => {
     const validGenders = ['male', 'female', 'non-binary', 'other'];
     if (!validGenders.includes(gender.toLowerCase())) {
-      setGenderError('Gender must be male, female, non-binary, or other');
+      if(language != 'pt'){
+        setGenderError('Gender must be male, female, non-binary, or other');
+        return false;
+      }
+      setGenderError('Genero tem de ser male, female, non-binary, ou other');
       return false;
     } else {
       setGenderError('');
@@ -124,10 +200,18 @@ const validateBirthdate = (birthdate) => {
   sixteenYearsAgo.setFullYear(today.getFullYear() - 16);
 
   if (birthDate >= today) {
-    setBirthdateError('Birthdate cannot be today or in the future');
+    if(language != 'pt'){
+      setBirthdateError('Birthdate cannot be today or in the future');
+      return false;
+    }
+    setBirthdateError('Data de nascimento não pode ser a data atual ou do futuro');
     return false;
   } else if (birthDate > sixteenYearsAgo) {
-    setBirthdateError('You must be at least 16 years old');
+    if(language != 'pt'){
+      setBirthdateError('You must be at least 16 years old');
+      return false;
+    }
+    setBirthdateError('Tem de ter pelo menos 16 anos.');
     return false;
   } else {
     setBirthdateError('');
@@ -142,7 +226,7 @@ const validateBirthdate = (birthdate) => {
           <div className="col-sm-6 text-black">
             <div className="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
               <form style={{ width: '23rem' }} onSubmit={handleSubmit}>
-                <h3 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>Sign up</h3>
+                <h3 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>{SignUp}</h3>
 
                 <div className="form-outline mb-4">
                   <input
@@ -152,7 +236,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setName(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example1c">Your Name</label>
+                  <label className="form-label" htmlFor="form3Example1c">{Name}</label>
                 </div>
 
                 <div className="form-outline mb-4">
@@ -163,7 +247,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example3c">Your Email</label>
+                  <label className="form-label" htmlFor="form3Example3c">{Email}</label>
                   <div className="text-danger">{emailError}</div>
                 </div>
 
@@ -175,7 +259,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example4c">Password</label>
+                  <label className="form-label" htmlFor="form3Example4c">{passwordR}</label>
                   <div className="text-danger">{passwordError}</div>
                 </div>
 
@@ -187,7 +271,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setRepeatPassword(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example4cd">Repeat your password</label>
+                  <label className="form-label" htmlFor="form3Example4cd">{passwordRR}</label>
                 </div>
 
                 <div className="form-outline mb-4">
@@ -198,7 +282,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setBirthdate(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example4cf">Birthdate</label>
+                  <label className="form-label" htmlFor="form3Example4cf">{Birthdate}</label>
                   <div className="text-danger">{birthdateError}</div>
                 </div>
 
@@ -210,7 +294,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setNationality(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example3c">Your Nationality</label>
+                  <label className="form-label" htmlFor="form3Example3c">{Nationality}</label>
                 </div>
 
                 <div className="form-outline mb-4">
@@ -221,7 +305,7 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setQuote(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example3c">Your Quote</label>
+                  <label className="form-label" htmlFor="form3Example3c">{Quote}</label>
                   <div className="text-danger">{quoteError}</div>
                 </div>
 
@@ -233,8 +317,19 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setGender(e.target.value)}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form3Example4cd">Gender</label>
+                  <label className="form-label" htmlFor="form3Example4cd">{Gender}</label>
                   <div className="text-danger">{genderError}</div>
+                </div>
+
+                <div className="form-outline mb-4">
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={handleFileChange}
+                    id="form3Example4cre"
+                    className="form-control form-control-lg"
+                  />
+                  <label className="form-label" htmlFor="form3Example4cd">{ProfilePicture}</label>
                 </div>
 
                 <div className="form-outline mb-4">
@@ -243,7 +338,7 @@ const validateBirthdate = (birthdate) => {
                     value={phone}
                     onChange={setPhone}
                   />
-                  <label className="form-label" htmlFor="form3Example4cd">Phone</label>
+                  <label className="form-label" htmlFor="form3Example4cd">{Phone}</label>
                 </div>
 
                 <div className="form-check mb-4">
@@ -254,15 +349,15 @@ const validateBirthdate = (birthdate) => {
                     onChange={(e) => setAgreeTerms(e.target.checked)}
                     id="form1Example3"
                   />
-                  <label className="form-check-label" htmlFor="form1Example3"> I agree to all statements in <a href="#!">Terms of service</a> </label>
+                  <label className="form-check-label" htmlFor="form1Example3"> {Terms} <a href="#!">{Service}</a> </label>
                 </div>
 
                 <div className="pt-1 mb-4">
-                  <button className="btn btn-info btn-lg btn-block" type="submit">Register</button>
+                  <button className="btn btn-info btn-lg btn-block" type="submit">{Register}</button>
                   <div className="text-danger">{submitError}</div>
                 </div>
 
-                <p>Already have an account? <Link to="/Login" className="link-info">Login here</Link></p>
+                <p>{Login} <Link to="/Login" className="link-info">{LoginH}</Link></p>
               </form>
             </div>
           </div>

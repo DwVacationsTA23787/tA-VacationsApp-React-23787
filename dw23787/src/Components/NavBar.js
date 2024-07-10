@@ -45,7 +45,7 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto mr-2">
+        <Nav className="ml-auto mr-2" style={{alignItems: 'center'}}>
 
         <DropdownButton id="flag-dropdown" title={selectedFlag ? <img src={selectedFlag} alt="Selected Flag" style={{ width: '25px', height: '25px' }} /> : "Select Flag"} variant="outline-primary">
             <Dropdown.Item onClick={() => handleFlagSelect('PT', '/portugal.svg')}>

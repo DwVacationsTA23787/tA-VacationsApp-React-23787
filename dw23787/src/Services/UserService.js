@@ -23,14 +23,10 @@ export function handleLogin(Email, password, remainder) {
 
 
 
-  export function handleRegister(user) {
+  export function handleRegister(formData) {
     fetch('https://localhost:7044/api/V1/Register', {  
       method: 'POST',
-      headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
+      body: formData,
     })
     .then((res) => res.json())
     .then((res) => {

@@ -59,7 +59,7 @@ const Travels = () => {
               <td>{trip.transport}</td>
               <td>{trip.category}</td>
               <td>{trip.banner}</td>
-              <td className='text-center'>{<i class="bi bi-x"></i>}</td>
+              <td className='text-center'><button type="button" class="btn btn-danger">Delete</button></td>
             </tr>
           ))}
         </tbody>

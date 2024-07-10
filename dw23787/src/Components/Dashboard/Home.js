@@ -54,7 +54,7 @@ function Home() {
           <Col md={4}>
             <Card>
               {user.profilePicture && (
-                <Card.Img variant="top" src={user.profilePicture} alt="Profile Picture" />
+              <Card.Img variant="top" src={user.profilePicture === null || user.profilePicture === "" ? "/profile.jpeg" : user.profilePicture } alt="Profile Picture" />
               )}
               <Card.Body>
                 <Card.Title>

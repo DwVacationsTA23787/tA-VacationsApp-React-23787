@@ -51,7 +51,7 @@ const Groups = () => {
               <td>{group.groupId}</td>
               <td>{group.groupName}</td>
               <td>{group.userCount}</td>
-              <td className='text-center'>{<i class="bi bi-x"></i>}</td>
+              <td className='text-center'><button type="button" class="btn btn-danger">Delete</button></td>
             </tr>
           ))}
         </tbody>

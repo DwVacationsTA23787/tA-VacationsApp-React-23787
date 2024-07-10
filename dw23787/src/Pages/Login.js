@@ -12,6 +12,9 @@ const {
   remember,
   account,
   register,
+  password,
+  email,
+  LogIn,
 } = Loginphrases[language];
 
   // UseStates
@@ -49,10 +52,18 @@ const {
   const validateEmail = (email) => {
     const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (email === "") {
-      setEmailError('Email is required');
+      if(language != 'pt'){
+        setEmailError('Email is required');
+        return false;
+      }
+      setEmailError('Email é necessario');
       return false;
     } else if (!re.test(email)) {
-      setEmailError('Enter a valid email address');
+      if(language != "pt"){
+        setEmailError('Enter a valid email address');
+        return false;
+      }
+      setEmailError('Introduza um email valido');
       return false;
     } else {
       setEmailError('');
@@ -60,13 +71,22 @@ const {
     }
   };
 
+
   const validatePassword = (password) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (password === "") {
-      setPasswordError('Password is required');
+      if(language != "pt"){
+        setPasswordError('Password is required');
+        return false;
+      }
+      setPasswordError('Password é necessaria');
       return false;
     } else if (!re.test(password)) {
-      setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
+      if(language != "pt"){
+        setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
+        return false;
+      }
+      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um digito, uma letra minuscula e uma maiuscula');
       return false;
     } else {
       setPasswordError('');
@@ -81,7 +101,7 @@ const {
           <div className="col-sm-6 text-black">
             <div className="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
               <form style={{ width: '23rem' }}>
-                <h3 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>Log in</h3>
+                <h3 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>{LogIn}</h3>
                 <div className="form-outline mb-4">
                   <input
                     type="email"
@@ -90,7 +110,7 @@ const {
                     onChange={handleEmail}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form2Example18">Email address</label>
+                  <label className="form-label" htmlFor="form2Example18">{email}</label>
                   <div className="text-danger">{emailError}</div>
                 </div>
                 <div className="form-outline mb-4">
@@ -101,7 +121,7 @@ const {
                     onChange={handlePassword}
                     className="form-control form-control-lg"
                   />
-                  <label className="form-label" htmlFor="form2Example28">Password</label>
+                  <label className="form-label" htmlFor="form2Example28">{password}</label>
                   <div className="text-danger">{passwordError}</div>
                 </div>
                 <div className="form-check mb-4">

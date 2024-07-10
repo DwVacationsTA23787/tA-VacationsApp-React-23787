@@ -32,7 +32,6 @@ function CreateTripModal({ show, onHide }) {
       formData.append('banner', banner);
     }
 
-
     try {
       const response = await CreateTrip(storedUser.id, formData);
 
