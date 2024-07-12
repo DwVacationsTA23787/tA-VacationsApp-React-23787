@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import './Chat.css'
-
+import React, { useEffect, useState } from 'react';
+import './Chat.css';
+import {handleMessagePost} from '../Services/MessageService';
+import {GetAllGroupsMessages} from '../Services/MessageService';
+import { useAppContext } from '../Components/AppContext';
 
 // groups
 const users = [
@@ -11,7 +13,6 @@ const users = [
     { id: 5, name: 'Kate Moss', message: 'Lorem ipsum dolor sit.', time: 'Yesterday', avatar: 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp', status: 'away', notifications: 0 },
     { id: 6, name: 'Ben Smith', message: 'Lorem ipsum dolor sit.', time: 'Yesterday', avatar: 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp', status: 'online', notifications: 0 },
 ];
-
 //mensages
 const messages = [
     { sender: 'Ben Smith', time: '12:00 PM | Aug 13', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', align: 'start' },
@@ -25,19 +26,23 @@ const messages = [
 ];
 
 function ChatPage() {
-
+    const { ImageDir } = useAppContext();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedUser, setSelectedUser] = useState(users[0]);
     const [messageInput, setMessageInput] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [groups, setGroups] = useState([]);
+
+
+    // Handle Event Functions
 
     const handleFileUpload = () => {
         document.getElementById('fileInput').click();
     };
 
     const handleFileSelect = (event) => {
-        const selectedFile = event.target.files[0];
-        // Handle the selected file here, e.g., upload it to a server, display it, etc.
-        console.log('Selected file:', selectedFile);
+        const file = event.target.files[0];
+        setSelectedFile(file);
     };
 
     const handleUserClick = (user) => {
@@ -52,97 +57,151 @@ function ChatPage() {
         setMessageInput(e.target.value);
     };
 
-    const handleSendMessage = () => {
-        if (messageInput.trim() !== '') {
-            messages.push({ sender: 'You', time: 'Now', content: messageInput, align: 'end' });
-            setMessageInput('');
+    // Handle Message submit done
+    const handleSendMessage = async () => {
+        if (messageInput.trim() === '') return;
+        
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+
+        const formData = new FormData();
+        const messageTitle = messageInput.substring(0, 20);
+        formData.append('MessageTitle', messageTitle);
+        formData.append('Description', messageInput);
+        formData.append('GroupFK', '2b992405-57b0-47c3-aab1-23d29cfe59d2');
+        formData.append('UserFK', storedUser.id);
+
+        if (selectedFile) {
+            formData.append('Picture', selectedFile);
         }
+
+        const response = handleMessagePost(formData);
+    
+        messages.push({ sender: 'You', time: 'Now', content: messageInput, align: 'end' });
+        setMessageInput('');
+        setSelectedFile(null);
     };
 
-    // filtro dos Groups
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.message.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+
+    // filter users that will be filter groups
+    const filteredGroups = groups.filter(group => {
+      
+        const groupNameMatch = group.groupName.toLowerCase().includes(searchTerm.toLowerCase());
+        const lastMessageMatch = group.lastMessage && group.lastMessage.messageTitle.toLowerCase().includes(searchTerm.toLowerCase());
+        return groupNameMatch || lastMessageMatch;
+    });
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        GetAllGroupsMessages(storedUser.id).then((data) => {
+            console.log(data)
+            const mappedGroups = data.map(group => ({
+                id: group.id,
+                groupId: group.groupId,
+                groupName: group.groupName,
+                lastMessage: group.lastMessage ? {
+                    id: group.lastMessage.id,
+                    messageTitle: group.lastMessage.messageTitle,
+                    senderAvatar: group.lastMessage.senderAvatar,
+                    senderName: group.lastMessage.senderName,
+                    time: new Date(group.lastMessage.time).toLocaleString() // Format time as needed
+                } : null
+            }));
+
+            setGroups(mappedGroups);
+
+            // If there's at least one group, select the first one by default
+            if (mappedGroups.length > 0) {
+                setSelectedUser(mappedGroups[0]); // if i send directly to the group here is where i have to change!
+            }
+        })
+
+    }, [])
 
     return (
         <section style={{ backgroundColor: '#2f3e23' }}>
-            <div className="container py-5">
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="card" id="chat3" style={{ borderRadius: '15px' }}>
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-                                        <div className="p-3">
-                                            <div className="input-group rounded mb-3">
-                                                <input
-                                                    type="search"
-                                                    className="form-control rounded"
-                                                    placeholder="Search"
-                                                    aria-label="Search"
-                                                    aria-describedby="search-addon"
-                                                    value={searchTerm}
-                                                    onChange={handleSearchChange}
-                                                />
-                                                <span className="input-group-text border-0" id="search-addon">
-                                                    <i className="fas fa-search"></i>
-                                                </span>
-                                            </div>
-                                            <div className="user-list" style={{ position: 'relative', height: '400px', overflowY: 'auto' }}>
-                                                <ul className="list-unstyled mb-0">
-                                                    {filteredUsers.map((user) => (
-                                                        <li key={user.id} className="p-2 border-bottom" onClick={() => handleUserClick(user)}>
-                                                            <a href="#!" className="d-flex justify-content-between">
-                                                                <div className="d-flex flex-row">
-                                                                    <div>
-                                                                        <img src={user.avatar} alt="avatar" className="d-flex align-self-center me-3" width="60" />
-                                                                        <span className={`badge bg-${user.status === 'online' ? 'success' : user.status === 'away' ? 'warning' : 'danger'} badge-dot`}></span>
-                                                                    </div>
-                                                                    <div className="pt-1">
-                                                                        <p className="fw-bold mb-0">{user.name}</p>
-                                                                        <p className="small text-muted">{user.message}</p>
-                                                                    </div>
+        <div className="container py-5">
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="card" id="chat3" style={{ borderRadius: '15px' }}>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+                                    <div className="p-3">
+                                        <div className="input-group rounded mb-3">
+                                            <input
+                                                type="search"
+                                                className="form-control rounded"
+                                                placeholder="Search"
+                                                aria-label="Search"
+                                                aria-describedby="search-addon"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
+                                            />
+                                            <span className="input-group-text border-0" id="search-addon">
+                                                <i className="fas fa-search"></i>
+                                            </span>
+                                        </div>
+                                        <div className="user-list" style={{ position: 'relative', height: '400px', overflowY: 'auto' }}>
+                                            <ul className="list-unstyled mb-0">
+                                                {filteredGroups.map(group => (
+                                                    <li key={group.id} className={`p-2 border-bottom ${selectedUser && selectedUser.id === group.id ? 'selected' : ''}`} onClick={() => handleUserClick(group)}>
+                                                        <a href="#!" className="d-flex justify-content-between">
+                                                            <div className="d-flex flex-row">
+                                                                <div>
+                                                                    <img src={group.lastMessage ? group.lastMessage.senderAvatar : 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp'} alt="avatar" className="d-flex align-self-center me-3" width="60" />
+                                                                    <span className="badge bg-primary badge-dot"></span>
                                                                 </div>
                                                                 <div className="pt-1">
-                                                                    <p className="small text-muted mb-1">{user.time}</p>
-                                                                    {user.notifications > 0 && <span className="badge bg-danger rounded-pill float-end">{user.notifications}</span>}
+                                                                    <p className="fw-bold mb-0">{group.groupName}</p>
+                                                                    {group.lastMessage && <p className="small text-muted">{group.lastMessage.messageTitle}</p>}
                                                                 </div>
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
+                                                            </div>
+                                                            <div className="pt-1">
+                                                                {group.lastMessage && <p className="small text-muted mb-1">{group.lastMessage.time}</p>}
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div className="col-md-6 col-lg-7 col-xl-8">
-                                        <div className="pt-3 pe-3" style={{ position: 'relative', height: '400px', overflowY: 'auto' }}>
-                                            {messages.map((message, index) => (
-                                                <div className={`d-flex flex-row justify-content-${message.align}`} key={index}>
-                                                    <img src={message.align === 'start' ? selectedUser.avatar : 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp'} alt="avatar" style={{ width: '45px', height: '100%' }} />
-                                                    <div>
-                                                        <p className={`small p-2 ms-3 mb-1 rounded-3 ${message.align === 'start' ? 'bg-body-tertiary' : 'bg-primary text-white'}`}>{message.content}</p>
-                                                        <p className="small ms-3 mb-3 rounded-3 text-muted float-end">{message.time}</p>
-                                                    </div>
+                                </div>
+                                <div className="col-md-6 col-lg-7 col-xl-8">
+                                    <div className="pt-3 pe-3" style={{ position: 'relative', height: '400px', overflowY: 'auto' }}>
+                                        {selectedUser && selectedUser.lastMessage && (
+                                            <div className={`d-flex flex-row justify-content-start`}>
+                                                <img src={selectedUser.lastMessage.senderAvatar} alt="avatar" style={{ width: '45px', height: '100%' }} />
+                                                <div>
+                                                    <p className={`small p-2 ms-3 mb-1 rounded-3 bg-primary text-white`}>{selectedUser.lastMessage.messageTitle}</p>
+                                                    <p className="small ms-3 mb-3 rounded-3 text-muted float-end">{selectedUser.lastMessage.time}</p>
                                                 </div>
-                                            ))}
-                                        </div>
-                                        <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-                                            <img src={selectedUser.avatar} alt="avatar 3" style={{ width: '40px', height: '100%' }} />
-                                            <input
-                                                type="text"
-                                                className="form-control form-control-lg"
-                                                placeholder="Type message"
-                                                value={messageInput}
-                                                onChange={handleMessageChange}
-                                            />
-                                            <div>
-                                                <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileSelect} />
-                                                <i className="fas fa-paperclip" style={{ cursor: 'pointer' }} onClick={handleFileUpload}></i>
                                             </div>
-                                            {/* <a className="ms-3 text-muted" href="#!"><i className="fas fa-smile"></i></a> */}
-                                            <a className="ms-3" href="#!" onClick={handleSendMessage}><i className="fas fa-paper-plane"></i></a>
+                                        )}
+                                        {/* Render messages based on selected user */}
+                                        {messages.map((message, index) => (
+                                            <div className={`d-flex flex-row justify-content-${message.align}`} key={index}>
+                                                <img src={message.align === 'start' ? selectedUser.avatar : 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp'} alt="avatar" style={{ width: '45px', height: '100%' }} />
+                                                <div>
+                                                    <p className={`small p-2 ms-3 mb-1 rounded-3 ${message.align === 'start' ? 'bg-body-tertiary' : 'bg-primary text-white'}`}>{message.content}</p>
+                                                    <p className="small ms-3 mb-3 rounded-3 text-muted float-end">{message.time}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
+                                        <img src={selectedUser ? selectedUser.avatar : 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp'} alt="avatar 3" style={{ width: '40px', height: '100%' }} />
+                                        <input
+                                            type="text"
+                                            className="form-control form-control-lg"
+                                            placeholder="Type message"
+                                            value={messageInput}
+                                            onChange={handleMessageChange}
+                                        />
+                                        <div>
+                                            <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileSelect} />
+                                            <i className="fas fa-paperclip" style={{ cursor: 'pointer' }} onClick={handleFileUpload}></i>
                                         </div>
+                                        <a className="ms-3" href="#!" onClick={handleSendMessage}><i className="fas fa-paper-plane"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -150,8 +209,9 @@ function ChatPage() {
                     </div>
                 </div>
             </div>
-        </section>
-    )
+        </div>
+    </section>
+    );
 }
 
-export default ChatPage
+export default ChatPage;

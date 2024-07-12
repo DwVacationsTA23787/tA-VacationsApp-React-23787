@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Saudation.css';
 import CreateTripModal from '../SaudationComponents/CreateTripModal';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { useAppContext } from '../../Components/AppContext';
 import { ShowTravelsphrases } from '../../Utils/language';
 
@@ -16,6 +16,7 @@ function Saudation() {
 
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
   useEffect(() => {
     const userLocal = JSON.parse(localStorage.getItem('user'));
@@ -34,6 +35,11 @@ function Saudation() {
 
   return (
     <Row className="justify-content-between">
+        {alert.show && (
+        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+          {alert.message}
+        </Alert>
+      )}
     <Col>
       {user ? (
         <>
@@ -52,7 +58,7 @@ function Saudation() {
       )}
     </Col>
 
-    <CreateTripModal show={showModal} onHide={handleCloseModal} />
+    <CreateTripModal setAlert={setAlert} show={showModal} onHide={handleCloseModal} />
   </Row>
   );
 }

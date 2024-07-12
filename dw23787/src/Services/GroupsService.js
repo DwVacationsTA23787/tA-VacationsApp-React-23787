@@ -1,7 +1,8 @@
+const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
 
 export async function GetAllGroupsForUser(id) {
     try {
-      const response = await fetch(`https://localhost:7044/api/V1/GetAllGroupsForUser?id=${id}`, {
+      const response = await fetch(`${URL}/GetAllGroupsForUser?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -19,7 +20,7 @@ export async function GetAllGroupsForUser(id) {
   }
 
   export function AddUserToGroup(groupId, userId) {
-    return fetch(`https://localhost:7044/api/V1/AddUserToGroup?${new URLSearchParams({
+    return fetch(`${URL}/AddUserToGroup?${new URLSearchParams({
       groupId: groupId,
       userId: userId
     })}`, {
@@ -36,3 +37,47 @@ export async function GetAllGroupsForUser(id) {
       throw error;
     });
   }
+
+
+  export function DeleteGroup(groupId) {
+    return fetch(`${URL}/DeleteGroup?${new URLSearchParams({
+      groupId: groupId
+    })}`, {
+      headers: {
+        Accept: "application/json"
+      },
+      method: "DELETE",
+      credentials: 'include'
+    })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.message);
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+  }
+
+
+  export async function UpdateGroupService(id, formData) {
+    try {
+      const response = await fetch(`${URL}/UpdateGroup?id=${id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      return response.status;  
+    } catch (error) {
+      console.error('Error creating trip:', error);
+      throw error;
+    }
+  }
+  

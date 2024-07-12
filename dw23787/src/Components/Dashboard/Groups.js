@@ -1,25 +1,41 @@
-// src/Components/Dashboard/Groups.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Table, Pagination, Container } from 'react-bootstrap';
-import { GetAllGroupsForUser } from '../../Services/GroupsService';
+import { Table, Pagination, Container, Alert } from 'react-bootstrap';
+import { GetAllGroupsForUser, DeleteGroup } from '../../Services/GroupsService';
+import { useAppContext } from '../AppContext';
+import { DashGroupsphrases } from '../../Utils/language';
+import GroupUpdate from './GroupComponent/GroupUpdate';
 
 const Groups = () => {
+
+  const { language } = useAppContext();
+  const {
+    Groups,
+    List,
+    GroupName,
+    UsersGroup,
+    GroupID,
+    Delete,
+    Update
+  } = DashGroupsphrases[language];
+
   const { id } = useParams();
   const [groups, setGroups] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [groupsPerPage] = useState(5);
   const [user, setUser] = useState(null);
+  const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     setUser(storedUser);
 
     GetAllGroupsForUser(id).then((data) => {
-      console.log(data.$values)
-      setGroups(data.$values);
+      setGroups(data);
     }).catch((error) => {
-      console.error('Error fetching trips:', error);
+      console.error('Error fetching groups:', error);
     });
   }, [id]);
 
@@ -30,18 +46,63 @@ const Groups = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const userName = user && user.name ? user.name : "";
+  const isAdmin = user && user.isAdmin ? user.isAdmin : false;
+
+  const handleDelete = (groupId) => {
+    DeleteGroup(groupId)
+      .then((data) => {
+        setAlert({
+          show: true,
+          message: language !== 'pt' ? data.message : 'Grupo apagado com sucesso',
+          variant: 'success'
+        });
+        setGroups(groups.filter(group => group.groupId !== groupId));
+      })
+      .catch((error) => {
+        setAlert({
+          show: true,
+          message: language !== 'pt' ? error.message : 'Apague primeiro a viagem correspondente ao grupo associado.',
+          variant: 'danger'
+        });
+      });
+  };
+
+  const handleUpdate = (groupId) => {
+    const groupToUpdate = groups.find((group) => group.groupId === groupId);
+    setSelectedGroup(groupToUpdate);
+    setShowModal(true);
+  };
+
+  const updateGroup = (updatedGroup) => {
+    const updatedGroups = groups.map((group) =>
+      group.groupId === updatedGroup.groupId ? { ...group, ...updatedGroup } : group
+    );
+    setGroups(updatedGroups);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <Container className="mt-4">
-      <h1>Groups for {userName}</h1>
+      {
+        isAdmin ? <h1>{List}</h1> : <h1>{Groups} {userName}</h1>
+      }
+      {alert.show && (
+        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+          {alert.message}
+        </Alert>
+      )}
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>#</th>
-            <th>Group ID</th>
-            <th>Name</th>
-            <th>Users in Group</th>
-            <th>Delete</th>
+            <th>{GroupID}</th>
+            <th>{GroupName}</th>
+            <th>{UsersGroup}</th>
+            <th>{Update}</th>
+            <th>{Delete}</th>
           </tr>
         </thead>
         <tbody>
@@ -51,7 +112,8 @@ const Groups = () => {
               <td>{group.groupId}</td>
               <td>{group.groupName}</td>
               <td>{group.userCount}</td>
-              <td className='text-center'><button type="button" class="btn btn-danger">Delete</button></td>
+              <td className='text-center'><button onClick={() => handleUpdate(group.groupId)} type="button" className="btn btn-info">{Update}</button></td>
+              <td className='text-center'><button onClick={() => handleDelete(group.groupId)} type="button" className="btn btn-danger">{Delete}</button></td>
             </tr>
           ))}
         </tbody>
@@ -63,6 +125,15 @@ const Groups = () => {
           </Pagination.Item>
         ))}
       </Pagination>
+      {selectedGroup && (
+        <GroupUpdate
+          show={showModal}
+          onHide={handleCloseModal}
+          group={selectedGroup}
+          setAlert={setAlert}
+          updateGroup={updateGroup}
+        />
+      )}
     </Container>
   );
 };

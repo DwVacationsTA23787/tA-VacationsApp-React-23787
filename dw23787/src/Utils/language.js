@@ -225,3 +225,82 @@ export const HomePagephrases = {
       search: "VAMOS PROCURAR UMA NOVA VIAGEM!",
     },
   };
+
+  export const DashHomephrases = {
+    en: {
+      Profile: "User Profile",
+      Email: "Email",
+      Birth: "Date of Birth:",
+      Age: "Age",
+      Gender: "Gender",
+      Phone: "Phone",
+      Quote: "Quote",
+      Edit: "Edit",
+      Save: "Save",
+      NationalityF: "Nationality"
+    },
+    pt:{
+      Profile: "Perfil de utilizador",
+      Email: "Endereço de email",
+      Birth: "Data de nascimento:",
+      Age: "Idade",
+      Gender: "Genero",
+      Phone: "Telemovel",
+      Quote: "Frase de destaque",
+      Edit: "Editar",
+      Save: "Salvar",
+      NationalityF: "Nacionalidade"
+  }
+};
+
+export const DashTripsphrases = {
+  en: {
+    Travels: "Travels of",
+    List: "List Of Trips",
+    TripName: "Trip Name",
+    Transport: "Transport",
+    BudgetI: "Initial Budget",
+    BudgetF: "Final Budget",
+    Category: "Category",
+    Location: "Location",
+    Description: "Description",
+    Banner: "Banner",
+    Delete: "Delete",
+    Update: "Update",
+  },
+  pt:{
+    Travels: "Viagens de",
+    List: "Lista de viagens",
+    TripName: "Nome Viagem",
+    Transport: "Transporte",
+    BudgetI: "Orçamento Inicial",
+    BudgetF: "Orçamento Final",
+    Category: "Categoria",
+    Location: "Localização",
+    Description: "Descrição",
+    Banner: "Imagem",
+    Delete: "Apagar",
+    Update: "Atualizar",
+}
+};
+
+export const DashGroupsphrases = {
+  en: {
+    Groups: "Groups of",
+    List: "List Of Groups",
+    GroupName: "Name Name",
+    UsersGroup: "Users in Group",
+    GroupID: "Group ID",
+    Delete: "Delete",
+    Update: "Update",
+  },
+  pt:{
+    Groups: "Grupos de",
+    GroupID: "ID Grupo",
+    List: "Lista de Grupos",
+    GroupName: "Nome Grupo",
+    UsersGroup: "Nº Utilizadores",
+    Delete: "Apagar",
+    Update: "Atualizar",
+}
+};

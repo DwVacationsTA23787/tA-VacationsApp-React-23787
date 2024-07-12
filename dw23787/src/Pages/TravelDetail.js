@@ -10,7 +10,7 @@ import { TravelDetailsphrases } from '../Utils/language';
 
 function TravelDetail() {
 
-  const { language } = useAppContext();
+  const { language, ImageDir } = useAppContext();
   const {
     KeyPoints,
       TripName,
@@ -83,7 +83,7 @@ function TravelDetail() {
         <div className='container-fluid mt-4'>
           <div className='row h-100 align-items-stretch'>
             <div className='col-md-6 d-flex align-items-stretch'>
-              <img src={travelDetail.banner === null || travelDetail.banner === "" ? "/default.webp" : "/default.webp"} className="img-thumbnail w-100" alt="Travel Thumbnail" />
+              <img src={travelDetail.banner === null || travelDetail.banner === "" ? "/default.webp" : `${ImageDir}/${travelDetail.banner}`} className="img-thumbnail w-100" alt="Travel Thumbnail" />
             </div>
 
             <div className='col-md-6'>
@@ -152,7 +152,7 @@ function TravelDetail() {
               <div className="col-lg-4 mb-5 mb-lg-0 position-relative d-flex justify-content-center align-items-center">
                 <div className='text-center'>
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                    src={travelDetail.user.profilePicture === null ||travelDetail.user.profilePicture === "" ? "/profile.jpeg" : `${ImageDir}/${travelDetail.user.profilePicture}`}
                     className="rounded-circle shadow-4"
                     style={{ width: '150px' }}
                     alt="Avatar"

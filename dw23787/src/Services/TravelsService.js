@@ -1,5 +1,7 @@
+const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
+
 export function GetTravels(id, Page, Pagesize, category, search) {
-    return fetch(`https://localhost:7044/api/V1/TravelCards?${new URLSearchParams({
+    return fetch(`${URL}/TravelCards?${new URLSearchParams({
       id: id,
       page: Page,
       pageSize: Pagesize,
@@ -24,7 +26,7 @@ export function GetTravels(id, Page, Pagesize, category, search) {
 
 
   export function GetTravelDetail(id) {
-    return fetch(`https://localhost:7044/api/V1/TripDetail?${new URLSearchParams({
+    return fetch(`${URL}/TripDetail?${new URLSearchParams({
       id: id,
     })}`, {
       headers: {
@@ -45,7 +47,7 @@ export function GetTravels(id, Page, Pagesize, category, search) {
 
 
   export function GetTravelsForUser(id) {
-    return fetch(`https://localhost:7044/api/V1/NumberUserTrips?${new URLSearchParams({
+    return fetch(`${URL}/NumberUserTrips?${new URLSearchParams({
       id: id,
     })}`, {
       headers: {
@@ -66,7 +68,7 @@ export function GetTravels(id, Page, Pagesize, category, search) {
 
 
   export function GetAllTravelsForUser(id) {
-    return fetch(`https://localhost:7044/api/V1/UserTrips?${new URLSearchParams({
+    return fetch(`${URL}/UserTrips?${new URLSearchParams({
       id: id,
     })}`, {
       headers: {
@@ -87,7 +89,7 @@ export function GetTravels(id, Page, Pagesize, category, search) {
 
 export async function GetAllTripsForUser(id) {
   try {
-    const response = await fetch(`https://localhost:7044/api/V1/GetAllTripsForUser?id=${id}`, {
+    const response = await fetch(`${URL}/GetAllTripsForReactUser?id=${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -107,18 +109,69 @@ export async function GetAllTripsForUser(id) {
 
 export async function CreateTrip(id, formData) {
   try {
-    const response = await fetch(`https://localhost:7044/api/V1/CreateTrip?id=${id}`, {
+    const response = await fetch(`${URL}/CreateTrip?id=${id}`, {
       method: 'POST',
       body: formData,
     });
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const data = await response.json();
-    return data;
+    
+    return response.status;  
   } catch (error) {
     console.error('Error creating trip:', error);
     throw error;
   }
 }
 
+
+export function DeleteTrip(tripId) {
+  const url = `${URL}/DeleteTrip?${new URLSearchParams({ tripId: tripId })}`;
+
+  return fetch(url, {
+    headers: {
+      'Accept': '*/*'
+    },
+    method: 'DELETE',
+    credentials: 'include'
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return response.json();
+    } else {
+      return response.text();
+    }
+  })
+  .then((data) => {
+    console.log('Response data:', data);
+    return data;
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    throw error;
+  });
+}
+
+
+export async function UpdateTrip(id, formData) {
+  try {
+    const response = await fetch(`${URL}/UpdateTrip?id=${id}`, {
+      method: 'PUT',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    return response.status;  
+  } catch (error) {
+    console.error('Error creating trip:', error);
+    throw error;
+  }
+}

@@ -23,7 +23,7 @@ function UserTravels() {
         setLoading(true);
         GetAllTravelsForUser(id)
           .then((data) => {
-            setTravelCards(data.trips.$values || []);
+            setTravelCards(data.trips || []);
             setUserData(data.user)
           })
           .catch((error) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, DropdownButton, Dropdown } from 'react-bootstrap';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,8 +9,9 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
   const { changeLanguage } = useAppContext();
   const navigate = useNavigate();
   const [selectedFlag, setSelectedFlag] = useState('/uk.svg');
+  const [user, setUser] = useState(null);
 
-  const { language } = useAppContext();
+  const { language, ImageDir } = useAppContext();
   const {
     login,
     register,
@@ -29,8 +30,13 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
     } else if (countryCode === 'GB') {
       changeLanguage('en');
     }
-    console.log('Selected flag:', countryCode);
   }
+
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    setUser(storedUser);
+  }, [])
 
   return (
     <Navbar expand="lg" sticky="top" className="custom-navbar">
@@ -40,7 +46,7 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
           width="100"
           height="auto"
           className="d-inline-block align-top"
-          alt="React Bootstrap logo"
+          alt="APP logo"
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -69,7 +75,7 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
                 <Nav.Link as={Link} to={`/Profile/${id}`}>
                   <img
                     className="rounded-4 shadow-4"
-                    src="https://mdbootstrap.com/img/Photos/Avatars/man2.jpg"
+                    src={user.profilePicture === null || user.profilePicture === "" ? "/profile.jpeg" : `${ImageDir}/${user.profilePicture}`}
                     alt="Avatar"
                     style={{ width: '40px', height: '40px' }}
                   />

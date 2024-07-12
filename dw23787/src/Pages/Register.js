@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { handleRegister } from '../Services/UserService';
 import { useAppContext } from '../Components/AppContext';
 import { Registerhrases } from '../Utils/language';
+import { countries } from '../Utils/countrys';
 
 function Register() {
 
@@ -54,6 +55,8 @@ function Register() {
   const [birthdateError, setBirthdateError] = useState('');
   const [submitError, setSubmitError] = useState('');
 
+  const navigator = useNavigate();
+
 
   // Handle Events functions
 
@@ -99,9 +102,10 @@ function Register() {
 
     try {
       const response = await handleRegister(formData);
+      navigator("/Login");
 
       if (response) {
-        console.log('User Created sucessfully:', response);
+        console.error('User Created sucessfully:', response);
       } else {
         console.error('Failed to create user:', response.statusText);
       }
@@ -163,12 +167,12 @@ function Register() {
   };
 
   const validateQuote = (quote) => {
-    if (quote.length < 10 || quote.length > 100) {
+    if (quote.length < 10 || quote.length > 250) {
       if(language != 'pt'){
-        setQuoteError('Quote must be between 10 and 100 characters');
+        setQuoteError('Quote must be between 10 and 250 characters');
         return false;
       }
-      setQuoteError('Frase tem de conter entre 10 a 100 caracteres');
+      setQuoteError('Frase tem de conter entre 10 a 250 caracteres');
       return false;
     } else {
       setQuoteError('');
@@ -287,13 +291,17 @@ const validateBirthdate = (birthdate) => {
                 </div>
 
                 <div className="form-outline mb-4">
-                  <input
-                    type="text"
+                  <select
                     id="form3Example3c"
                     value={nationality}
                     onChange={(e) => setNationality(e.target.value)}
                     className="form-control form-control-lg"
-                  />
+                  >
+                    <option value="">{nationality}</option>
+                    {countries.map((country) => (
+                      <option key={country.id} value={country.name}>{country.name}</option>
+                    ))}
+                  </select>
                   <label className="form-label" htmlFor="form3Example3c">{Nationality}</label>
                 </div>
 

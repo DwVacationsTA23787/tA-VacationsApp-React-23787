@@ -2,8 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, Form, Row, Button } from 'react-bootstrap';
 import { GetUser, UpdateUser } from '../../Services/UserService';
 import { useParams } from 'react-router-dom';
+import { useAppContext } from '../AppContext';
+import { DashHomephrases } from '../../Utils/language';
 
 function Home() {
+
+
+const { language, ImageDir } = useAppContext();
+const {
+  Profile,
+  Email,
+  Birth,
+  Age,
+  Gender,
+  Phone,
+  Quote,
+  Edit,
+  Save,
+  NationalityF
+} = DashHomephrases[language];
+
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -15,6 +33,7 @@ function Home() {
     gender: '',
     phone: '',
     quote: '',
+    Nationality: ''
   });
 
   useEffect(() => {
@@ -28,6 +47,7 @@ function Home() {
         gender: data.gender,
         phone: data.phone,
         quote: data.quote,
+        Nationality: data.nationality,
       });
     });
   }, [id]);
@@ -48,13 +68,13 @@ function Home() {
 
   return (
     <Container className="mt-4">
-      <h1>User Profile</h1>
+      <h1>{Profile}</h1>
       {user ? (
         <Row>
           <Col md={4}>
             <Card>
               {user.profilePicture && (
-              <Card.Img variant="top" src={user.profilePicture === null || user.profilePicture === "" ? "/profile.jpeg" : user.profilePicture } alt="Profile Picture" />
+              <Card.Img variant="top" src={user.profilePicture === null || user.profilePicture === "" ? "/profile.jpeg" : `${ImageDir}/${user.profilePicture}` } alt="Profile Picture" />
               )}
               <Card.Body>
                 <Card.Title>
@@ -70,7 +90,7 @@ function Home() {
                   )}
                 </Card.Title>
                 <Card.Text>
-                  <strong>Email:</strong>{' '}
+                  <strong>{Email}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       type="text"
@@ -82,7 +102,7 @@ function Home() {
                     user.email
                   )}
                   <br />
-                  <strong>Date of Birth:</strong>{' '}
+                  <strong>{Birth}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       type="date"
@@ -94,7 +114,7 @@ function Home() {
                     new Date(user.dataNascimento).toLocaleDateString()
                   )}
                   <br />
-                  <strong>Age:</strong>{' '}
+                  <strong>{Age}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       type="number"
@@ -106,7 +126,7 @@ function Home() {
                     user.age
                   )}
                   <br />
-                  <strong>Gender:</strong>{' '}
+                  <strong>{Gender}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       as="select"
@@ -121,7 +141,7 @@ function Home() {
                     user.gender
                   )}
                   <br />
-                  <strong>Phone:</strong>{' '}
+                  <strong>{Phone}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       type="text"
@@ -133,7 +153,19 @@ function Home() {
                     user.phone
                   )}
                   <br />
-                  <strong>Quote:</strong>{' '}
+                  <strong>{NationalityF}:</strong>{' '}
+                  {editing ? (
+                    <Form.Control
+                      type="text"
+                      name="Nationality"
+                      value={formData.Nationality}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    user.nationality
+                  )}
+                  <br />
+                  <strong>{Quote}:</strong>{' '}
                   {editing ? (
                     <Form.Control
                       type="text"
@@ -147,11 +179,11 @@ function Home() {
                 </Card.Text>
                 {editing ? (
                   <Button variant="primary" onClick={handleUpdate}>
-                    Save
+                    {Save}
                   </Button>
                 ) : (
                   <Button variant="info" onClick={() => setEditing(true)}>
-                    Edit
+                    {Edit}
                   </Button>
                 )}
               </Card.Body>

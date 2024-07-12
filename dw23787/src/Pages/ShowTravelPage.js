@@ -35,7 +35,7 @@ function ShowTravelPage() {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     GetTravels(storedUser.id, page, 10, category, search)
       .then((data) => {
-        setTravelCards(data.travelCards.$values);
+        setTravelCards(data.travelCards);
         setCurrentPage(data.currentPage);
         setTotalPages(data.totalPages);
       })
@@ -93,7 +93,7 @@ function ShowTravelPage() {
           {travelCards.length > 0 ? (
             travelCards.map((travel) => (
               <div key={travel.id} style={{ flex: '1 0 200px', margin: '10px' }}>
-                <TravelCard id={travel.id} image={travel.image} title={travel.name} />
+                <TravelCard id={travel.id} image={travel.banner} title={travel.name} />
               </div>
             ))
           ) : (

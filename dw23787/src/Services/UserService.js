@@ -1,5 +1,7 @@
+const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
+
 export function handleLogin(Email, password, remainder) {
-  return fetch(`https://localhost:7044/api/V1/LogIn?${new URLSearchParams({
+  return fetch(`${URL}/LogIn?${new URLSearchParams({
     email: Email,
     password: password,
     remainder: remainder
@@ -24,7 +26,7 @@ export function handleLogin(Email, password, remainder) {
 
 
   export function handleRegister(formData) {
-    fetch('https://localhost:7044/api/V1/Register', {  
+    fetch(`${URL}/Register`, {  
       method: 'POST',
       body: formData,
     })
@@ -42,7 +44,7 @@ export function handleLogin(Email, password, remainder) {
   }
 
   export function GetUser(id) {
-    return fetch(`https://localhost:7044/api/V1/GetUser?${new URLSearchParams({
+    return fetch(`${URL}/GetUser?${new URLSearchParams({
       id: id,
     })}`, {
       headers: {
@@ -62,7 +64,7 @@ export function handleLogin(Email, password, remainder) {
 
 
   export function UpdateUser(id, userData) {
-    return fetch(`https://localhost:7044/api/V1/UpdateUser/${id}`, {
+    return fetch(`${URL}/UpdateUser/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

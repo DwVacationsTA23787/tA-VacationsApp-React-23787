@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './TravelCard.css';
 import { Link } from 'react-router-dom';
+import { useAppContext } from './AppContext';
 
 function TravelCard({id, image, title}) {
     const [isClicked, setIsClicked] = useState(false);
+    const { ImageDir } = useAppContext();
 
     const handleClick = () => {
         setIsClicked(!isClicked);
@@ -17,7 +19,7 @@ function TravelCard({id, image, title}) {
             onClick={handleClick}
         >
             <img
-                src={image === null || image === "" ? "/default.webp" : "/default.webp"}
+                src={image === null || image === "" ? "/default.webp" : `${ImageDir}/${image}`}
                 className="card-img-top"
                 alt="Sunset Over the Sea"
             />

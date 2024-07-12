@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { CreateTrip } from '../../Services/TravelsService';
-import { useAppContext } from '../AppContext';
-import { ModelTripsphrases } from '../../Utils/language';
-import { countries } from '../../Utils/countrys';
+import { UpdateTrip } from '../../../Services/TravelsService';
+import { useAppContext } from '../../AppContext';
+import { ModelTripsphrases } from '../../../Utils/language';
+import { countries } from '../../../Utils/countrys';
 
-function CreateTripModal({ show, onHide, setAlert }) {
+  
 
+function TravelUpdate({ show, onHide, trip, setAlert, updateTrip }) {
 
   const { language } = useAppContext();
   const {
@@ -41,22 +42,22 @@ function CreateTripModal({ show, onHide, setAlert }) {
   } = ModelTripsphrases[language];
 
 
-  const [tripName, setTripName] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [category, setCategory] = useState('');
-  const [transport, setTransport] = useState('');
-  const [initialBudget, setInitialBudget] = useState('');
-  const [finalBudget, setFinalBudget] = useState('');
-  const [banner, setBanner] = useState(null);
+const [tripName, setTripName] = useState(trip.tripName);
+const [description, setDescription] = useState(trip.description);
+const [location, setLocation] = useState(trip.location);
+const [category, setCategory] = useState(trip.category);
+const [transport, setTransport] = useState(trip.transport);
+const [initialBudget, setInitialBudget] = useState(trip.inicialBudget);
+const [finalBudget, setFinalBudget] = useState(trip.finalBudget);
+const [banner, setBanner] = useState(trip.banner === null || trip.banner === "" ? "/profile.jpeg" : trip.banner);
 
-  const handleFileChange = (e) => {
-    setBanner(e.target.files[0]);
-  };
+const handleFileChange = (e) => {
+  setBanner(e.target.files[0]);
+};
 
-  const handleCreateTrip = async () => {
+
+const handleCreateTrip = async () => {
     const formData = new FormData();
-    const storedUser = JSON.parse(localStorage.getItem('user'));
 
     formData.append('TripName', tripName);
     formData.append('Description', description);
@@ -69,24 +70,20 @@ function CreateTripModal({ show, onHide, setAlert }) {
       formData.append('banner', banner);
     }
 
-    try {
-      await CreateTrip(storedUser.id, formData).then((status) => {  
-        setAlert({
-          show: true,
-          message:
-            language !== 'pt'
-              ? 'Trip created successfully'
-              : 'Viagem criada com sucesso',
-          variant: 'success'
+        await UpdateTrip(trip.id, formData).then((updatedTrip) => {
+          setAlert({
+            show: true,
+            message:
+              language !== 'pt'
+                ? 'Trip updated successfully'
+                : 'Viagem atualizada com sucesso',
+            variant: 'success'
+          });
+          //updateTrip(updatedTrip);
+          window.location.reload();
         });
-        onHide();
-      });
-
-    } catch (error) {
-      console.error('Error in CreateTrip call:', error);
-    }
-
   };
+
 
   return (
     <Modal show={show} onHide={onHide} centered>
@@ -193,7 +190,7 @@ function CreateTripModal({ show, onHide, setAlert }) {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
-export default CreateTripModal;
+export default TravelUpdate

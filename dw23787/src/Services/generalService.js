@@ -1,6 +1,9 @@
+const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
+
+
 export async function GetUsersCount() {
     try {
-      const response = await fetch('https://localhost:7044/api/V1/numUsers', {
+      const response = await fetch(`${URL}/numUsers`, {
         headers: {
           Accept: "*/*"
         }
@@ -18,7 +21,7 @@ export async function GetUsersCount() {
   
   export async function GetTripsCount() {
     try {
-      const response = await fetch('https://localhost:7044/api/V1/numTrips', {
+      const response = await fetch(`${URL}/numTrips`, {
         headers: {
           Accept: "*/*"
         }
