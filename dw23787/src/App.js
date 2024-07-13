@@ -38,7 +38,7 @@ function App() {
         navigate('/', { replace: true });
       })
       .catch((error) => {
-        setSubmitError('Failed to login. Please check your credentials and try again.');
+          setSubmitError('Failed to login. Please check your credentials and try again or verify your email');
       });
   };
 

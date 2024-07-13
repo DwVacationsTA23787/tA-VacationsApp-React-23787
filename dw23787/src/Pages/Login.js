@@ -7,7 +7,7 @@ import { Loginphrases } from '../Utils/language';
 function Login({ handleLogin, SubmitError }) {
 
 
-  const { language } = useAppContext();
+const { language } = useAppContext();
 const {
   remember,
   account,

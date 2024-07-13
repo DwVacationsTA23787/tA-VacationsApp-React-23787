@@ -32,10 +32,6 @@ export function handleLogin(Email, password, remainder) {
     })
     .then((res) => res.json())
     .then((res) => {
-        //const user = res.rows[0];
-        //localStorage.setItem('user', JSON.stringify(user))
-        //navigate('/', { replace: true });
-        //window.location.reload();
         return res;
     })
     .catch((error) => {

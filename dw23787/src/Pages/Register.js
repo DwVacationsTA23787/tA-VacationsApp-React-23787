@@ -6,6 +6,7 @@ import { handleRegister } from '../Services/UserService';
 import { useAppContext } from '../Components/AppContext';
 import { Registerhrases } from '../Utils/language';
 import { countries } from '../Utils/countrys';
+import { Alert } from 'react-bootstrap';
 
 function Register() {
 
@@ -43,6 +44,7 @@ function Register() {
   const [quote, setQuote] = useState('');
   const [nationality, setNationality] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
 
 
@@ -101,14 +103,13 @@ function Register() {
     }
 
     try {
-      const response = await handleRegister(formData);
-      navigator("/Login");
-
-      if (response) {
-        console.error('User Created sucessfully:', response);
-      } else {
-        console.error('Failed to create user:', response.statusText);
-      }
+      await handleRegister(formData);
+      setAlert({
+        show: true,
+        message: language !== 'pt' ? 'Please verify your email' : 'Por favor verifique o seu email',
+        variant: 'success'
+      });
+      
     } catch (error) {
       console.error('Error creating user:', error.message);
     }
@@ -225,6 +226,11 @@ const validateBirthdate = (birthdate) => {
 
   return (
     <section className="vh-100">
+       {alert.show && (
+        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+          {alert.message}
+        </Alert>
+      )}
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-6 text-black">
