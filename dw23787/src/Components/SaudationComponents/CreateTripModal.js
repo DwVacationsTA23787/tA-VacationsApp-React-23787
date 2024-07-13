@@ -50,11 +50,29 @@ function CreateTripModal({ show, onHide, setAlert }) {
   const [finalBudget, setFinalBudget] = useState('');
   const [banner, setBanner] = useState(null);
 
+
+  // Errors
+  const [descriptionError, setDescriptionError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [submitError, setSubmitError] = useState('');
+
   const handleFileChange = (e) => {
     setBanner(e.target.files[0]);
   };
 
   const handleCreateTrip = async () => {
+
+    const isValid = validateDescription(description) & validateTripName(tripName);
+
+    if(!isValid){
+      if(language != 'pt'){  
+        setSubmitError('Please correct the errors before submitting.');
+        return;
+      }
+      setSubmitError('Por favor corrija os erros antes de submeter.');
+      return;
+    }
+
     const formData = new FormData();
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -88,6 +106,56 @@ function CreateTripModal({ show, onHide, setAlert }) {
 
   };
 
+
+  const validateDescription = (description) => {
+    description = description.trim();
+    const length = description.length;
+    if(length < 100){
+      if(language != 'pt'){
+        setDescriptionError("Please insert a description with at least 100 characters.")
+      }else{
+        setDescriptionError("Por favor insira uma descrição com pelo menos 100 caracteres.")
+      }
+      return false;
+    }
+
+    if(length > 300){
+      if(language != 'pt'){
+        setDescriptionError("Please insert a description with no more then 300 characters.")
+      }else{
+        setDescriptionError("Por favor insira uma descrição com menos de 300 caracteres.")
+      }
+      return false;
+    }
+
+    return true;
+}
+
+  const validateTripName = (tripNameValidator) => {
+    tripNameValidator = tripNameValidator.trim();
+    const length = tripNameValidator.length;
+
+    if(length < 15){
+      if(language != 'pt'){
+        setNameError("Please insert a trip name with at least 15 characters.")
+      }else{
+        setNameError("Por favor insira um nome com pelo menos 15 caracteres.")
+      }
+      return false;
+    }
+
+    if(length > 45){
+      if(language != 'pt'){
+        setNameError("Please insert a trip name with no more then 45 characters.")
+      }else{
+        setNameError("Por favor insira um nome com menos de 45 caracteres.")
+      }
+      return false;
+    }
+
+    return true;
+  }
+
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
@@ -104,6 +172,7 @@ function CreateTripModal({ show, onHide, setAlert }) {
               onChange={(e) => setTripName(e.target.value)}
             />
           </Form.Group>
+          <div className="text-danger">{nameError}</div>
           <Form.Group controlId="description">
             <Form.Label>{Description}</Form.Label>
             <Form.Control
@@ -114,6 +183,7 @@ function CreateTripModal({ show, onHide, setAlert }) {
               onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
+          <div className="text-danger">{descriptionError}</div>
           <Form.Group controlId="location">
             <Form.Label>{Location}</Form.Label>
             <Form.Control
@@ -182,6 +252,7 @@ function CreateTripModal({ show, onHide, setAlert }) {
               onChange={handleFileChange}
             />
           </Form.Group>
+          <div className="text-danger">{submitError}</div>
         </Form>
       </Modal.Body>
       <Modal.Footer>

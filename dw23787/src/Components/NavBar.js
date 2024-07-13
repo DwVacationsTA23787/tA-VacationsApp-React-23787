@@ -72,18 +72,19 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
               </>
             ) : (
               <>
+                  {user && (
                 <Nav.Link as={Link} to={`/Profile/${id}`}>
                   <img
                     className="rounded-4 shadow-4"
-                    src={user.profilePicture === null || user.profilePicture === "" ? "/profile.jpeg" : `${ImageDir}/${user.profilePicture}`}
+                    src={user.profilePicture ? `${ImageDir}/${user.profilePicture}` : "/profile.jpeg"}
                     alt="Avatar"
                     style={{ width: '40px', height: '40px' }}
                   />
                 </Nav.Link>
-                <Nav.Link onClick={handleLogoutClick}>{logout}</Nav.Link>
-              </>
-            )
-          }
+              )}
+              <Nav.Link onClick={handleLogoutClick}>{logout}</Nav.Link>
+            </>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

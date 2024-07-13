@@ -141,7 +141,7 @@ const Travels = () => {
               <td>{trip.description}</td>
               <td>{trip.transport}</td>
               <td>{trip.category}</td>
-              <td> <img src={trip.banner === null || trip.banner === "" ? "/profile.jpeg" : `${ImageDir}/${trip.banner}`} alt="Travel Picture" /> </td>
+              <td> <img style={{height: '50px', maxWidth: '150px'}} src={trip.banner === null || trip.banner === "" ? "/profile.jpeg" : `${ImageDir}/${trip.banner}`} alt="Travel Picture" /> </td>
               <td>{trip.location}</td>
               <td className='text-center'><button onClick={() => {handleUpdate(trip.id)}} type="button" class="btn btn-info">{Update}</button></td>
               <td className='text-center'><button onClick={() => {handleDelete(trip.id)}} type="button" class="btn btn-danger">{Delete}</button></td>
