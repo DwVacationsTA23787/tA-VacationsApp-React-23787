@@ -55,8 +55,8 @@ function Saudation() {
     </Col>
     <Col className="col-auto">
       {user && (
-        <Button className='m-2' variant="success" onClick={handleShowModal}>
-         <i class="bi bi-plus-circle"></i>
+        <Button className='m-2' style={{height: '40px', width: '40px'}} variant="success" onClick={handleShowModal}>
+            +
         </Button>
       )}
     </Col>

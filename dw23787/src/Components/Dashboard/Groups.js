@@ -56,7 +56,8 @@ const Groups = () => {
 
   // Delete Group function, a group just can be deleted if the trip already as been deleted.
   const handleDelete = (groupId) => {
-    DeleteGroup(groupId)
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    DeleteGroup(groupId, storedUser.id)
       .then((data) => {
         setAlert({
           show: true,
@@ -68,7 +69,7 @@ const Groups = () => {
       .catch((error) => {
         setAlert({
           show: true,
-          message: language !== 'pt' ? error.message : 'Apague primeiro a viagem correspondente ao grupo associado.',
+          message: language !== 'pt' ? error.message : 'Tem de ser group admin ou apague primeiro a viagem correspondente ao grupo associado.',
           variant: 'danger'
         });
       });

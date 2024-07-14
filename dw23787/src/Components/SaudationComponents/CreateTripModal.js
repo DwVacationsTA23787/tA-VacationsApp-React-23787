@@ -116,11 +116,11 @@ function CreateTripModal({ show, onHide, setAlert }) {
   const validateDescription = (description) => {
     description = description.trim();
     const length = description.length;
-    if(length < 100){
+    if(length < 15){
       if(language != 'pt'){
-        setDescriptionError("Please insert a description with at least 100 characters.")
+        setDescriptionError("Please insert a description with at least 15 characters.")
       }else{
-        setDescriptionError("Por favor insira uma descrição com pelo menos 100 caracteres.")
+        setDescriptionError("Por favor insira uma descrição com pelo menos 15 caracteres.")
       }
       return false;
     }
@@ -141,11 +141,11 @@ function CreateTripModal({ show, onHide, setAlert }) {
     tripNameValidator = tripNameValidator.trim();
     const length = tripNameValidator.length;
 
-    if(length < 15){
+    if(length < 10){
       if(language != 'pt'){
-        setNameError("Please insert a trip name with at least 15 characters.")
+        setNameError("Please insert a trip name with at least 10 characters.")
       }else{
-        setNameError("Por favor insira um nome com pelo menos 15 caracteres.")
+        setNameError("Por favor insira um nome com pelo menos 10 caracteres.")
       }
       return false;
     }

@@ -46,9 +46,10 @@ export async function GetAllGroupsForUser(id) {
   }
 
 
-  export function DeleteGroup(groupId) {
+  export function DeleteGroup(groupId, userid) {
     return fetch(`${URL}/DeleteGroup?${new URLSearchParams({
-      groupId: groupId
+      groupId: groupId,
+      userId: userid
     })}`, {
       headers: {
         Accept: "application/json"
