@@ -11,6 +11,8 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
   const [selectedFlag, setSelectedFlag] = useState('/uk.svg');
   const [user, setUser] = useState(null);
 
+  // App context variables for language conversion.
+  // Image directory from server.
   const { language, ImageDir } = useAppContext();
   const {
     login,
@@ -18,11 +20,13 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
     logout,
   } = NavBarphrases[language];
 
+  // Fucntion handleLogout received from App.js, to empty user from localstorage.
   const handleLogoutClick = () => {
     handleLogout();
     navigate('/', { replace: true });
   }
 
+  //Selection of country for language selection
   const handleFlagSelect = (countryCode, flagImage) => {
     setSelectedFlag(flagImage);
     if (countryCode === 'PT') {
@@ -33,10 +37,14 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
   }
 
 
+  // Grab user from localstorage to get is profilePicture
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     setUser(storedUser);
   }, [])
+
+  // Used to not give error while populating storedUser.
+  const userProfilePicture = user ? user.profilePicture : null;
 
   return (
     <Navbar expand="lg" sticky="top" className="custom-navbar">
@@ -72,16 +80,14 @@ function NavBar({ isLoggedIn, handleLogout, id }) {
               </>
             ) : (
               <>
-                  {user && (
                 <Nav.Link as={Link} to={`/Profile/${id}`}>
                   <img
                     className="rounded-4 shadow-4"
-                    src={user.profilePicture ? `${ImageDir}/${user.profilePicture}` : "/profile.jpeg"}
+                    src={user.profilePicture ? `${ImageDir}/${userProfilePicture}` : "/profile.jpeg"}
                     alt="Avatar"
                     style={{ width: '40px', height: '40px' }}
                   />
                 </Nav.Link>
-              )}
               <Nav.Link onClick={handleLogoutClick}>{logout}</Nav.Link>
             </>
           )}

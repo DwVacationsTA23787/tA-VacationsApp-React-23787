@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { handleRegister } from '../Services/UserService';
@@ -10,7 +10,7 @@ import { Alert } from 'react-bootstrap';
 
 function Register() {
 
-
+  // App context variables for language conversion.
   const { language } = useAppContext();
   const {
     Name,
@@ -57,27 +57,26 @@ function Register() {
   const [birthdateError, setBirthdateError] = useState('');
   const [submitError, setSubmitError] = useState('');
 
-  const navigator = useNavigate();
-
 
   // Handle Events functions
-
+  // handleSubmit - This function will treat the submition form and validate it displaying error messages if its necessary.
+  // handleFileChange - Gets the file information to be added in the form on handlesubmit.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== repeatPassword) {
-      if(language != 'pt'){
-        alert("Passwords don't match");
+      if(language !== 'pt'){
+        setPasswordError("Passwords don't match");
         return;
       }
-      alert("Palavras-passe não coincidem"); // verrrrrr istooooo
+      setPasswordError("Palavras-passe não coincidem");
       return;
     }
 
     const isValid = validateEmail(email) & validatePassword(password) & validateQuote(quote) & validateGender(gender) & validateBirthdate(birthdate);
     
     if (!isValid) {
-      if(language != 'pt'){  
+      if(language !== 'pt'){  
         setSubmitError('Please correct the errors before submitting.');
         return;
       }
@@ -122,18 +121,22 @@ function Register() {
 
 
   // validation Functions
-
+  // validateEmail - regex ensures that is an email, and gives the corresponding error in case of failing.
+  // validatePassword - regex ensusres that password be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter
+  // validateQuote - the quote as to be between 10 and 250 characters length.
+  // validateGender - as to be one of this ['male', 'female', 'non-binary', 'other', 'masculino', 'feminino', 'não-binário', 'outro']
+  // validateBirthdate - as to be at least 16 years old.
   const validateEmail = (email) => {
-    const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (email === "") {
-      if(language != 'pt'){
+      if(language !== 'pt'){
         setEmailError('Email is required');
         return false;
       }
       setEmailError('Email é necessario');
       return false;
     } else if (!re.test(email)) {
-      if(language != 'pt'){
+      if(language !== 'pt'){
         setEmailError('Enter a valid email address');
         return false;
       }
@@ -148,18 +151,18 @@ function Register() {
   const validatePassword = (password) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (password === "") {
-      if(language != "pt"){
+      if(language !== "pt"){
         setPasswordError('Password is required');
         return false;
       }
-      setPasswordError('Password é necessaria');
+      setPasswordError('Password é necessária');
       return false;
     } else if (!re.test(password)) {
-      if(language != "pt"){
+      if(language !== "pt"){
         setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
         return false;
       }
-      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um digito, uma letra minuscula e uma maiuscula');
+      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um dígito, uma letra minúscula e uma maiúscula');
       return false;
     } else {
       setPasswordError('');
@@ -169,7 +172,7 @@ function Register() {
 
   const validateQuote = (quote) => {
     if (quote.length < 10 || quote.length > 250) {
-      if(language != 'pt'){
+      if(language !== 'pt'){
         setQuoteError('Quote must be between 10 and 250 characters');
         return false;
       }
@@ -182,13 +185,13 @@ function Register() {
   };
 
   const validateGender = (gender) => {
-    const validGenders = ['male', 'female', 'non-binary', 'other'];
+    const validGenders = ['male', 'female', 'non-binary', 'other', 'masculino', 'feminino', 'não-binário', 'outro'];
     if (!validGenders.includes(gender.toLowerCase())) {
-      if(language != 'pt'){
+      if(language !== 'pt'){
         setGenderError('Gender must be male, female, non-binary, or other');
         return false;
       }
-      setGenderError('Genero tem de ser male, female, non-binary, ou other');
+      setGenderError('Género tem de ser masculino, feminino, não-binário, ou outro');
       return false;
     } else {
       setGenderError('');
@@ -205,14 +208,14 @@ const validateBirthdate = (birthdate) => {
   sixteenYearsAgo.setFullYear(today.getFullYear() - 16);
 
   if (birthDate >= today) {
-    if(language != 'pt'){
+    if(language !== 'pt'){
       setBirthdateError('Birthdate cannot be today or in the future');
       return false;
     }
     setBirthdateError('Data de nascimento não pode ser a data atual ou do futuro');
     return false;
   } else if (birthDate > sixteenYearsAgo) {
-    if(language != 'pt'){
+    if(language !== 'pt'){
       setBirthdateError('You must be at least 16 years old');
       return false;
     }
@@ -224,6 +227,7 @@ const validateBirthdate = (birthdate) => {
   }
 };
 
+  // The alert message here is to inform the email confirmation step.
   return (
     <section className="vh-100">
        {alert.show && (
@@ -283,7 +287,6 @@ const validateBirthdate = (birthdate) => {
                   />
                   <label className="form-label" htmlFor="form3Example4cd">{passwordRR}</label>
                 </div>
-
                 <div className="form-outline mb-4">
                   <input
                     type="date"
@@ -377,7 +380,7 @@ const validateBirthdate = (birthdate) => {
           </div>
 
           <div className="col-sm-6 px-0 d-none d-sm-block">
-            <img src="/adventure.jpg" alt="Register image" className="w-100 vh-100" style={{ objectFit: 'cover', objectPosition: 'left' }} />
+            <img src="/adventure.jpg" alt="Register" className="w-100 vh-100" style={{ objectFit: 'cover', objectPosition: 'left' }} />
           </div>
         </div>
       </div>

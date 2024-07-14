@@ -7,17 +7,19 @@ import { ShowTravelsphrases } from '../../Utils/language';
 
 function Saudation() {
 
-
+  // App context variables for language conversion.
   const { language } = useAppContext();
   const {
       HI,
       search,
   } = ShowTravelsphrases[language];
 
+  // UseState Variables
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
+  // Grab user from localstorage
   useEffect(() => {
     const userLocal = JSON.parse(localStorage.getItem('user'));
     if (userLocal) {
@@ -25,6 +27,7 @@ function Saudation() {
     }
   }, []);
 
+  // Functions to be passed to createTripModal in order to show or close him.
   const handleShowModal = () => {
     setShowModal(true);
   };

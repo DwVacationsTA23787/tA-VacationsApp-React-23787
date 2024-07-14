@@ -10,6 +10,7 @@ import { TravelDetailsphrases } from '../Utils/language';
 
 function TravelDetail() {
 
+  // App context variables for language conversion.
   const { language, ImageDir } = useAppContext();
   const {
     KeyPoints,
@@ -27,14 +28,25 @@ function TravelDetail() {
       EnterGroup,
   } = TravelDetailsphrases[language];
 
+  // useParams variable to save id of URL param.
   const { id } = useParams();
+
+  // UseState Variables to save data.
   const [travelDetail, setTravelDetail] = useState(null);
   const [travelsUser, setTravelsUser] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingTwo, setLoadingTwo] = useState(true);
 
+  // navigator to navigate between pages.
   const navigate = useNavigate();
 
+  // UseEffect - lifeCycle function.
+  // Firstly, we start by starting the loaders.
+  // Next we will look for the travel detail endpoint in order to get the trip information.
+  // If have an answer, put the information in the corresponding useState, and will get
+  // information on how many trips the user who created the trip has already created.
+  // Case the response be negative it will populate the array with [].
+  // close loaders.
   useEffect(() => {
     setLoading(true);
     setLoadingTwo(true);
@@ -68,7 +80,7 @@ function TravelDetail() {
     
     AddUserToGroup(travelDetail.groupId, storedUser.id)
       .then((response) => {
-          navigate("/chat");
+          navigate(`/chat/${travelDetail.groupId}`);
       })
       .catch((error) => {
         console.error("Error adding user to group:", error);
@@ -180,7 +192,7 @@ function TravelDetail() {
           </div>
         </div>
       ) : (
-        <NotFoundTest info="Travel detail not found" option="Back to Home" to="/"/>
+        language !== 'pt' ? ( <NotFoundTest info="Travel detail not found" option="Back to Home" to="/"/>) : ( <NotFoundTest info="Detalhes da Viagem não encontrados" option="Volte para o início" to="/"/>)
       )}
     </div>
   );

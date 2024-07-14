@@ -7,7 +7,8 @@ import { DashHomephrases } from '../../Utils/language';
 
 function Home() {
 
-
+// App context variables for language conversion.
+// Image from server.
 const { language, ImageDir } = useAppContext();
 const {
   Profile,
@@ -22,9 +23,14 @@ const {
   NationalityF
 } = DashHomephrases[language];
 
+  // useParams variable to save id of URL param.
   const { id } = useParams();
+
+  // UseState variables
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
+
+  // Formdata initialization, age is passed with value 0 because is calculated in the back-end.
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,6 +42,7 @@ const {
     Nationality: ''
   });
 
+  // Get user details to display in the card.
   useEffect(() => {
     GetUser(id).then((data) => {
       setUser(data);
@@ -52,10 +59,12 @@ const {
     });
   }, [id]);
 
+  // Edit function to change the form data
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Function to deal with the update
   const handleUpdate = async () => {
     try {
       await UpdateUser(id, formData);

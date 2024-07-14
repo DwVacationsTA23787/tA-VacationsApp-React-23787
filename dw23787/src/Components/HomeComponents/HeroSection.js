@@ -5,11 +5,13 @@ import { HomePagephrases } from '../../Utils/language';
 
 function HeroSection() {
 
+     // App context variables for language conversion.
     const { language } = useAppContext();
     const {
         Hero,
     } = HomePagephrases[language];
 
+    // This component is responsible for the hero section of the welcome page.
     return (
         <div
             className="container-fluid position-relative d-flex justify-content-center align-items-center"

@@ -1,5 +1,15 @@
+//  ------------------ BASE URL FOR ENDPOINTS -----------------
 const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
 
+// Functions explanations
+// GetTravels - Get all travels except the travels the user logged in created.
+// GetTravelDetail - Gets travels information as the user that created the travel.
+// GetTravelsForUser - Gets Number of travels that belong to a specific user.
+// GetAllTravelsForUser - Gets all travels created by a specific user.
+// GetAllTripsForUser - Gets all travels for Dashboard travels.
+// CreateTrip - Responsible for create a trip.
+// DeleteTrip - Responsible for delete a trip.
+// UpdateTrip - Responsible for update a trip.
 export function GetTravels(id, Page, Pagesize, category, search) {
     return fetch(`${URL}/TravelCards?${new URLSearchParams({
       id: id,
@@ -40,7 +50,7 @@ export function GetTravels(id, Page, Pagesize, category, search) {
       return data;
     })
     .catch((error) => {
-      console.error('Error during login:', error);
+      console.error('Error during travel info:', error);
       throw error;
     });
   }

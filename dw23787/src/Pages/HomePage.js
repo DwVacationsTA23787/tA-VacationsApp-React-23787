@@ -5,9 +5,12 @@ import {GetUsersCount, GetTripsCount} from '../Services/generalService';
 
 function HomePage() {
 
+  // UseState Variables
   const [numUsers, setNumUsers] = useState(0);
   const [numTrips, setNumTrips] = useState(0);
 
+  // UseEffect - lifeCycle function.
+  // grab counts of users and trips that are registered in the app to be displayed in the home page.
   useEffect(() => {
     const fetchUsersCount = async () => {
       const usersCount = await GetUsersCount();

@@ -5,10 +5,12 @@ import TravelCard from '../Components/TravelCard';
 import { GetTravels } from '../Services/TravelsService';
 import Pagination from 'react-bootstrap/Pagination';
 import NotFoundPage from '../Components/NotFoundPage';
+import { useAppContext } from '../Components/AppContext';
+import { ShowTravelsphrases } from '../Utils/language';
 
 function ShowTravelPage() {
 
-
+  // UseStates to save data
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [travelCards, setTravelCards] = useState([]);
@@ -16,6 +18,18 @@ function ShowTravelPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // App context variables for language conversion.
+  const { language } = useAppContext();
+  const {
+    search2,
+  } = ShowTravelsphrases[language];
+
+  
+  // Handle event functions
+  // clearSearch - delete search text
+  // getSearch - button to make the search
+  // fetchTravelCards - will fetch all trips except those for the current user id.
+  // handleCategorySelect - Change category.
   const clearSearch = () => {
     setSearchText("");
     fetchTravelCards(currentPage, selectedCategory, "");
@@ -47,6 +61,8 @@ function ShowTravelPage() {
       });
   };
 
+  // UseEffect - lifeCycle function.
+  // will fetch all trips except those for the current user id.
   useEffect(() => {
     fetchTravelCards(1, selectedCategory, searchText);
   }, []);
@@ -56,6 +72,10 @@ function ShowTravelPage() {
     fetchTravelCards(page, selectedCategory, searchText);
   };
 
+  // renders the saudation component wich as the name of the user and a welcome phrase.
+  // renders the category component wich as the categorys selection.
+  // Case exist travels in the array renders the map function, in case not renders the not found component with different props
+  // in case of the different languages.
   return (
     <div className='container mt-4 d-flex flex-column min-vh-100' style={{ backgroundColor: '#f8f9fa' }}>
       <Saudation />
@@ -63,8 +83,8 @@ function ShowTravelPage() {
         <input
           type="search"
           className="form-control"
-          placeholder="Search"
-          aria-label="Search"
+          placeholder={search2}
+          aria-label={search2}
           aria-describedby="search-addon"
           value={searchText}
           onChange={(event) => { setSearchText(event.target.value); }}
@@ -97,7 +117,10 @@ function ShowTravelPage() {
               </div>
             ))
           ) : (
-            <NotFoundPage info="No travel cards available" option="Reload the page" to="/"/>
+            language !== 'pt' ? (
+            <NotFoundPage info="No travel cards available" option="Reload the page" to="/"/>) : (
+            <NotFoundPage info="Sem bilhetes de viagem disponíveis" option="Recarrega a página" to="/"/>
+            )
           )}
         </div>
       )}

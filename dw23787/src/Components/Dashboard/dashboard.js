@@ -5,9 +5,12 @@ import Home from './Home';
 import Travels from './Travels';
 import Groups from './Groups';
 
+// Main dashboard, the selection is on the left and the content will apear on the right.
 const Dashboard = () => {
+  // To know what is the current active page.
   const [activeTab, setActiveTab] = useState('home');
 
+  // change active page
   const handleSelect = (tab) => {
     setActiveTab(tab);
   };

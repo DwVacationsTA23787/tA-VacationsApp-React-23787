@@ -57,7 +57,7 @@ function App() {
         <Route path="/" element={!isLoggedIn ? <HomePage /> : <ShowTravelPage />} />
         <Route path="/Login" element={<Login handleLogin={handleLogin} SubmitError={SubmitError} />} />
         <Route path="/Registo" element={<Register />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat/:id" element={<ChatPage />} />
         <Route path="/traveldetail/:id" element={<TravelDetail />} />
         <Route path="/UserTravels/:id" element={<UserTravels />} />
         <Route path="/Profile/:id" element={<DashboardPage />} />

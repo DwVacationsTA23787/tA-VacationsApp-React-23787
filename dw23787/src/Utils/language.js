@@ -1,8 +1,10 @@
+// Objects for language convertion
+
 export const HomePagephrases = {
     en: {
       Hero: 'everything you can imagine, is here',
       Nusers: 'Number Users',
-      NusersR: 'Number of Users Register in the App',
+      NusersR: 'Number of Users Registered in the App',
       NTrips: 'Number Trips',
       NTripsR: 'Number of Trips Created by our Users.',
 
@@ -26,7 +28,7 @@ export const HomePagephrases = {
     pt:{
         login: 'Entrar',
         register: 'Registrar',
-        logout: 'sair'
+        logout: 'Sair'
     },
   };
 
@@ -45,7 +47,7 @@ export const HomePagephrases = {
       register: 'Regista-te aqui',
       password: 'Palavra-passe',
       email: 'Endereço de email',
-      LogIn: "Inicio de Sessão",
+      LogIn: "Início de Sessão",
     },
   };
 
@@ -79,14 +81,14 @@ export const HomePagephrases = {
       Birthdate: "Data de nascimento",
       Nationality: "Nacionalidade",
       Quote: "Frase destaque",
-      Gender: "Genero",
-      ProfilePicture: "Foto do perfil",
-      Phone: "Telemovél",
+      Gender: "Género",
+      ProfilePicture: "Foto de perfil",
+      Phone: "Telemóvel",
       Terms: "Concordo com todas as declarações nos",
-      Service: "Termos de serviço",
+      Service: "Termos de Serviço",
       Register: "Registo",
       Login: "Já tem uma conta?",
-      LoginH: "Inicia sessão aqui"
+      LoginH: "Iniciar sessão aqui"
     },
   };
 
@@ -96,6 +98,7 @@ export const HomePagephrases = {
       HI: 'HI',
       search: "LET'S SEARCH FOR A NEW TRAVEL!",
       explore: "Explore Travels",
+      search2: "Search",
       tipo1: "All",
       tipo2: "Adventure",
       tipo3: "Leisure",
@@ -107,6 +110,7 @@ export const HomePagephrases = {
       HI: 'OLÁ',
       search: "VAMOS PROCURAR UMA NOVA VIAGEM!",
       explore: "Explorar viagens",
+      search2: "Pesquisa",
       tipo1: "Todas",
       tipo2: "Aventura",
       tipo3: "Lazer",
@@ -143,7 +147,7 @@ export const HomePagephrases = {
       Location: "Localização",
       Description: "Descrição",
       Age: "Idade",
-      Gender: "Genero",
+      Gender: "Género",
       Nationality: "Nacionalidade",
       TripsCreated: "Viagens criadas por",
       EnterGroup: "Clique para participar no grupo da viagem",
@@ -181,6 +185,7 @@ export const HomePagephrases = {
       tipo8: "Bus",
       tipo9: "Train",
       tipo10: "Hitchhiking",
+      Update: "Update",
     },
     pt:{
       NewTrip: 'Crie uma nova viagem',
@@ -211,6 +216,7 @@ export const HomePagephrases = {
       tipo8: "Autocarro",
       tipo9: "Comboio",
       tipo10: "A pedido",
+      Update: "Atualizar",
     },
   };
 
@@ -244,8 +250,8 @@ export const HomePagephrases = {
       Email: "Endereço de email",
       Birth: "Data de nascimento:",
       Age: "Idade",
-      Gender: "Genero",
-      Phone: "Telemovel",
+      Gender: "Género",
+      Phone: "Telemóvel",
       Quote: "Frase de destaque",
       Edit: "Editar",
       Save: "Salvar",

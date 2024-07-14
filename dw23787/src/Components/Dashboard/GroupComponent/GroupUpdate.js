@@ -5,16 +5,20 @@ import { useAppContext } from '../../AppContext';
 
 function GroupUpdate({ show, onHide, group, setAlert, updateGroup }) {
 
+  // App context variables for language conversion.
+  const { language } = useAppContext();
+  
+  // UseState variable
   const [groupName, setGroupName] = useState('');
 
-  const { language } = useAppContext();
-
+  // the group is passed in order to pass the groupName to the useSate.
   useEffect(() => {
     if (group) {
       setGroupName(group.groupName);
     }
   }, [group]);
 
+  // Function responsible to handle createGroup form.
   const handleCreateGroup = async () => {
     const formData = new FormData();
     formData.append('GroupName', groupName);
@@ -54,10 +58,14 @@ function GroupUpdate({ show, onHide, group, setAlert, updateGroup }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
-            Close
+          {
+            language != 'pt' ? ('Close') : ('Fechar')
+           }
           </Button>
           <Button variant="primary" onClick={handleCreateGroup}>
-            Update
+           {
+            language != 'pt' ? ('Update') : ('Atualizar')
+           }
           </Button>
         </Modal.Footer>
       </Modal>

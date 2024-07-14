@@ -9,6 +9,7 @@ import { countries } from '../../../Utils/countrys';
 
 function TravelUpdate({ show, onHide, trip, setAlert, updateTrip }) {
 
+  // App context variables for language conversion.
   const { language } = useAppContext();
   const {
     NewTrip,
@@ -39,9 +40,10 @@ function TravelUpdate({ show, onHide, trip, setAlert, updateTrip }) {
       tipo8,
       tipo9,
       tipo10,
+      Update,
   } = ModelTripsphrases[language];
 
-
+// UseSate Variables
 const [tripName, setTripName] = useState(trip.tripName);
 const [description, setDescription] = useState(trip.description);
 const [location, setLocation] = useState(trip.location);
@@ -51,11 +53,12 @@ const [initialBudget, setInitialBudget] = useState(trip.inicialBudget);
 const [finalBudget, setFinalBudget] = useState(trip.finalBudget);
 const [banner, setBanner] = useState(trip.banner === null || trip.banner === "" ? "/profile.jpeg" : trip.banner);
 
+// Handle file data
 const handleFileChange = (e) => {
   setBanner(e.target.files[0]);
 };
 
-
+// Function responsible for create the form to be sended on UpdateTrip endpoint.
 const handleCreateTrip = async () => {
     const formData = new FormData();
 
@@ -186,7 +189,7 @@ const handleCreateTrip = async () => {
           {Close}
         </Button>
         <Button variant="primary" onClick={handleCreateTrip}>
-          {CTrip}
+          {Update}
         </Button>
       </Modal.Footer>
     </Modal>

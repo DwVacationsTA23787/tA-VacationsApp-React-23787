@@ -1,8 +1,14 @@
 import React from 'react'
 import './NotFoud.css'
 import { Link } from 'react-router-dom'
+import { useAppContext } from './AppContext';
 
 function NotFoundPage({ to, info, option }) {
+
+    // App context variables for language conversion.
+    const { language } = useAppContext();
+
+    // Not found page receive props of message to display and is a train!
     return (
         <div class="main container">
             <div>
@@ -297,7 +303,9 @@ function NotFoundPage({ to, info, option }) {
                 </svg>
             </div>
             <div class="text-center">
-                <h3 class="h2 mb-2">Oops! You're lost.</h3>
+                {
+                    language != "pt" ? ( <h3 class="h2 mb-2">Oops! You're lost.</h3>) : (  <h3 class="h2 mb-2">Oops! Estás Perdido.</h3>)
+                }
                 <p class="mb-5">{info}</p>
                 <Link to={to} reloadDocument class="btn bsb-btn-5xl btn-dark rounded-pill px-5 fs-6 m-0" role="button">{option}</Link>
             </div>

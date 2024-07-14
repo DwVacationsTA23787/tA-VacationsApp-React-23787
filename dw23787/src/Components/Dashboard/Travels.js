@@ -10,6 +10,8 @@ import TravelUpdate from './TravelComponent/TravelUpdate';
 
 const Travels = () => {
 
+  // App context variables for language conversion.
+  // Image from server.
   const { language, ImageDir } = useAppContext();
   const {
     Travels,
@@ -26,7 +28,10 @@ const Travels = () => {
     Update
   } = DashTripsphrases[language];
 
+  // useParams variable to save id of URL param.
   const { id } = useParams();
+
+  // UseState Variables
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [tripsPerPage] = useState(5);
@@ -35,21 +40,18 @@ const Travels = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState(null);
 
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
   const handleCloseModal = (trip) => {
     setShowModal(false);
   };
 
+  // Function responsible for show the trip modal update.
   const handleUpdate = (tripId) => {
     const tripToUpdate = trips.find((trip) => trip.id === tripId);
     setSelectedTrip(tripToUpdate);
     setShowModal(true);
   };
 
+  // Update trip function responsible to show the new data
   const updateTrip = (updatedTrip) => {
     const updatedTrips = trips.map((trip) =>
       trip.id === updatedTrip.id ? updatedTrip : trip
@@ -57,6 +59,8 @@ const Travels = () => {
     setTrips(updatedTrips);
   };
 
+  // Get all the travels the user can see, if its the admin gets all travels in the app, if is not gets only the travels 
+  // that he or she or them created.
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     setUser(storedUser);
@@ -67,6 +71,7 @@ const Travels = () => {
     });
   }, [id]);
 
+  // Delete Trip function
   const handleDelete = (tripId) => {
     DeleteTrip(tripId)
       .then((data) => {
@@ -96,12 +101,13 @@ const Travels = () => {
   };
 
 
+  // Variables for pagination
   const indexOfLastTrip = currentPage * tripsPerPage;
   const indexOfFirstTrip = indexOfLastTrip - tripsPerPage;
   const currentTrips = trips.slice(indexOfFirstTrip, indexOfLastTrip);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Variables to not give error while loading the page.
   const userName = user && user.name ? user.name : "";
   const isAdmin = user && user.isAdmin ? user.isAdmin : false;
 
@@ -141,10 +147,10 @@ const Travels = () => {
               <td>{trip.description}</td>
               <td>{trip.transport}</td>
               <td>{trip.category}</td>
-              <td> <img style={{height: '50px', maxWidth: '150px'}} src={trip.banner === null || trip.banner === "" ? "/profile.jpeg" : `${ImageDir}/${trip.banner}`} alt="Travel Picture" /> </td>
+              <td> <img style={{ height: '50px', maxWidth: '150px' }} src={trip.banner === null || trip.banner === "" ? "/profile.jpeg" : `${ImageDir}/${trip.banner}`} alt="Travel Picture" /> </td>
               <td>{trip.location}</td>
-              <td className='text-center'><button onClick={() => {handleUpdate(trip.id)}} type="button" class="btn btn-info">{Update}</button></td>
-              <td className='text-center'><button onClick={() => {handleDelete(trip.id)}} type="button" class="btn btn-danger">{Delete}</button></td>
+              <td className='text-center'><button onClick={() => { handleUpdate(trip.id) }} type="button" class="btn btn-info">{Update}</button></td>
+              <td className='text-center'><button onClick={() => { handleDelete(trip.id) }} type="button" class="btn btn-danger">{Delete}</button></td>
             </tr>
           ))}
         </tbody>
@@ -157,14 +163,14 @@ const Travels = () => {
         ))}
       </Pagination>
       {selectedTrip && (
-  <TravelUpdate
-    show={showModal}
-    onHide={handleCloseModal}
-    trip={selectedTrip}
-    setAlert={setAlert}
-    updateTrip={updateTrip}
-  />
-)}
+        <TravelUpdate
+          show={showModal}
+          onHide={handleCloseModal}
+          trip={selectedTrip}
+          setAlert={setAlert}
+          updateTrip={updateTrip}
+        />
+      )}
     </Container>
 
   );

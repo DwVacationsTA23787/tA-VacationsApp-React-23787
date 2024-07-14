@@ -8,6 +8,7 @@ import GroupUpdate from './GroupComponent/GroupUpdate';
 
 const Groups = () => {
 
+  // App context variables for language conversion.
   const { language } = useAppContext();
   const {
     Groups,
@@ -19,7 +20,10 @@ const Groups = () => {
     Update
   } = DashGroupsphrases[language];
 
+  // useParams variable to save id of URL param.
   const { id } = useParams();
+
+  // UseState Variables
   const [groups, setGroups] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [groupsPerPage] = useState(5);
@@ -28,6 +32,7 @@ const Groups = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
+  // Gets user from localstorage so it can grab all the groups is admin, if its global admin it can see all the groups.
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     setUser(storedUser);
@@ -39,15 +44,17 @@ const Groups = () => {
     });
   }, [id]);
 
+  // Pagination variables
   const indexOfLastGroup = currentPage * groupsPerPage;
   const indexOfFirstGroup = indexOfLastGroup - groupsPerPage;
   const currentGroups = groups.slice(indexOfFirstGroup, indexOfLastGroup);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Variables to not give error while loading the page.
   const userName = user && user.name ? user.name : "";
   const isAdmin = user && user.isAdmin ? user.isAdmin : false;
 
+  // Delete Group function, a group just can be deleted if the trip already as been deleted.
   const handleDelete = (groupId) => {
     DeleteGroup(groupId)
       .then((data) => {

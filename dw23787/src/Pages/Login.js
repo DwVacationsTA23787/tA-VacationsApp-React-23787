@@ -6,7 +6,7 @@ import { Loginphrases } from '../Utils/language';
 
 function Login({ handleLogin, SubmitError }) {
 
-
+  // App context variables for language conversion.
 const { language } = useAppContext();
 const {
   remember,
@@ -26,6 +26,10 @@ const {
 
 
   // Handle Event Functions
+  // handleCheckboxChange - so the user can choose if it will be remember for 14 days or not.
+  // handleSubmit - try to make the login in case variables pass the validation step.
+  // handleEmail - email alteration.
+  // handlePassword password alteration.
   const handleCheckboxChange = (event) => {
     setRemainder(event.target.checked);
   };
@@ -48,22 +52,23 @@ const {
 
 
   // Validation Functions
-  
+  // validateEmail - regex ensures that is an email, and gives the corresponding error in case of failing.
+  // validatePassword - regex ensusres that password be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter
   const validateEmail = (email) => {
     const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (email === "") {
-      if(language != 'pt'){
+      if(language !== 'pt'){
         setEmailError('Email is required');
         return false;
       }
-      setEmailError('Email é necessario');
+      setEmailError('Email é necessário');
       return false;
     } else if (!re.test(email)) {
-      if(language != "pt"){
+      if(language !== "pt"){
         setEmailError('Enter a valid email address');
         return false;
       }
-      setEmailError('Introduza um email valido');
+      setEmailError('Introduza um email válido');
       return false;
     } else {
       setEmailError('');
@@ -75,18 +80,18 @@ const {
   const validatePassword = (password) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (password === "") {
-      if(language != "pt"){
+      if(language !== "pt"){
         setPasswordError('Password is required');
         return false;
       }
-      setPasswordError('Password é necessaria');
+      setPasswordError('Password é necessária');
       return false;
     } else if (!re.test(password)) {
-      if(language != "pt"){
+      if(language !== "pt"){
         setPasswordError('Password must be 6-20 characters, contain at least one digit, one lowercase and one uppercase letter');
         return false;
       }
-      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um digito, uma letra minuscula e uma maiuscula');
+      setPasswordError('Password tem de ter 6-20 caracteres, conter pelo menos um dígito, uma letra minúscula e uma maiúscula');
       return false;
     } else {
       setPasswordError('');

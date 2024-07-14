@@ -1,3 +1,4 @@
+// Array of countries to put in the nacionality and location selection.
 export const countries = [
   { id: 1, name: "Afghanistan" },
   { id: 2, name: "Albania" },

@@ -2,8 +2,10 @@ import React from 'react';
 import {HomePagephrases} from '../../Utils/language';
 import { useAppContext } from '../AppContext';
 
+
 function Counters({numUsers, numTrips}) {
 
+    // App context variables for language conversion.
     const { language } = useAppContext();
     const {
         Nusers,
@@ -12,6 +14,7 @@ function Counters({numUsers, numTrips}) {
         NTripsR,
     } = HomePagephrases[language];
 
+    // This component is responsible for displaying the number of users and trips created in the app.
     return (
         <div
             className="container-fluid"

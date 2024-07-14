@@ -1,5 +1,9 @@
+//  ------------------ BASE URL FOR ENDPOINTS -----------------
 const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
 
+// Funtions Explanation
+// GetUsersCount - Gets the number of users in the app.
+// GetTripsCount - Gets the number of trips in the app.
 
 export async function GetUsersCount() {
     try {

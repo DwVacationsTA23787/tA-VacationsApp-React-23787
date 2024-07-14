@@ -1,5 +1,12 @@
+//  ------------------ BASE URL FOR ENDPOINTS -----------------
 const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
 
+
+// Functions explanations
+// GetAllGroupsForUser - Gets all groups for a specific user, case its the admin returns all groups.
+// AddUserToGroup - Ads user to a group, insert user in User_Groups table, with admin value as false for default.
+// DeleteGroup - Responsible for deleting a group.
+// UpdateGroupService - Responsible for updating a group.
 export async function GetAllGroupsForUser(id) {
     try {
       const response = await fetch(`${URL}/GetAllGroupsForUser?id=${id}`, {
@@ -14,7 +21,7 @@ export async function GetAllGroupsForUser(id) {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching trips:', error);
+      console.error('Error fetching groups:', error);
       throw error;
     }
   }

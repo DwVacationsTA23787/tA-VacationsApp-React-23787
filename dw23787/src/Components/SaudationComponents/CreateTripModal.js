@@ -7,7 +7,7 @@ import { countries } from '../../Utils/countrys';
 
 function CreateTripModal({ show, onHide, setAlert }) {
 
-
+  // App context variables for language conversion.
   const { language } = useAppContext();
   const {
     NewTrip,
@@ -41,6 +41,7 @@ function CreateTripModal({ show, onHide, setAlert }) {
   } = ModelTripsphrases[language];
 
 
+  // UseState Variables
   const [tripName, setTripName] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -51,15 +52,17 @@ function CreateTripModal({ show, onHide, setAlert }) {
   const [banner, setBanner] = useState(null);
 
 
-  // Errors
+  // UseState Errors
   const [descriptionError, setDescriptionError] = useState('');
   const [nameError, setNameError] = useState('');
   const [submitError, setSubmitError] = useState('');
 
+  // Update file data
   const handleFileChange = (e) => {
     setBanner(e.target.files[0]);
   };
 
+  // Function responsible for submiting the form, after validating description and tripname attributes.
   const handleCreateTrip = async () => {
 
     const isValid = validateDescription(description) & validateTripName(tripName);
@@ -107,6 +110,9 @@ function CreateTripModal({ show, onHide, setAlert }) {
   };
 
 
+  // Validating Functions
+  // validateDescription - Description as to be greater or equal then 100 characters and less or equal then 300 characters.
+  // validateTripName - Trip Name as to be greater or equal then 15 characters and less or equal then 45 characters.
   const validateDescription = (description) => {
     description = description.trim();
     const length = description.length;

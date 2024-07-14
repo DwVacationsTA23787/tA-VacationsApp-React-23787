@@ -1,4 +1,12 @@
+//  ------------------ BASE URL FOR ENDPOINTS -----------------
 const URL = "https://dw2378720240712201935.azurewebsites.net/api/v1";
+
+
+// Functions explanations
+// handleLogin - Responsible for handling the login logic.
+// handleRegister - Responsible for handling the register logic.
+// GetUser - Responsible to get the user of Dashboard user page.
+// UpdateUser - Responsible for updating user.
 
 export function handleLogin(Email, password, remainder) {
   return fetch(`${URL}/LogIn?${new URLSearchParams({

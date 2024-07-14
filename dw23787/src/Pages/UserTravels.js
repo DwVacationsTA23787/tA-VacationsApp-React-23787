@@ -8,6 +8,7 @@ import { TravelsForUsersphrases } from '../Utils/language';
 
 function UserTravels() {
 
+  // useState Variables
   const { language } = useAppContext();
   const {
     HI,
@@ -19,6 +20,11 @@ function UserTravels() {
     const [userData, setUserData ] = useState(null);
     const { id } = useParams();
 
+
+    // UseEffect - lifeCycle function.
+    // starts the loader
+    // will fetch all trips for specific user id.
+    // Finally, if the answer is positive, insert it into the array. otherwise, insert empty and close the loader.
     useEffect(() => {
         setLoading(true);
         GetAllTravelsForUser(id)
@@ -34,6 +40,7 @@ function UserTravels() {
           });
       }, []);
 
+  // Render the component normally in case travelCards.length > 0, if not loads not found component.
   return (
     <div className='container mt-4 d-flex flex-column min-vh-100' style={{ backgroundColor: '#f8f9fa' }}>
         <p className='saudation-text'>

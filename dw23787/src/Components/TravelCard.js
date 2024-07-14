@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from './AppContext';
 
 function TravelCard({id, image, title}) {
+
+    // UseState Variable
     const [isClicked, setIsClicked] = useState(false);
+
+    // Image directory from server.
     const { ImageDir } = useAppContext();
 
     const handleClick = () => {
